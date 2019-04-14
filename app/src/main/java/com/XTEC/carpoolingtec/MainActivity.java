@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null){
-                txtName.setText("Nombre");
-                txtEmail.setText("example@android.com");
-                circleImageView.setImageResource(R.mipmap.ic_launcher);
+                txtName.setText(" ");
+                txtEmail.setText(" ");
+                circleImageView.setImageResource(0);
                 Toast.makeText(MainActivity.this, "Sin inicio de Sesion", Toast.LENGTH_SHORT).show();
             }
             else {
@@ -141,7 +141,9 @@ public class MainActivity extends AppCompatActivity
                     requestOptions.dontAnimate();
 
                     Glide.with(MainActivity.this).load(image_url).into(circleImageView);
-                }catch (Exception e){}
+                }catch (Exception e){
+                    Toast.makeText(MainActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -209,7 +211,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void checklogin(){
+    public void checklogin(){
         if(AccessToken.getCurrentAccessToken()!= null){
             loaduserProfile(AccessToken.getCurrentAccessToken());
         }
