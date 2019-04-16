@@ -1,9 +1,13 @@
 package com.XTEC.carpoolingtec;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +41,7 @@ import java.util.Arrays;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Profile.OnFragmentInteractionListener {
 
     private LoginButton login_button;
     private CircleImageView circleImageView;
@@ -71,6 +76,9 @@ public class MainActivity extends AppCompatActivity
         callbackManager = CallbackManager.Factory.create();
         login_button.setReadPermissions(Arrays.asList("email","public_profile","user_friends"));
         checklogin();
+
+        String [] Categorias = {"Pasagero", "Conductor"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,Categorias);
 
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -130,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                 }catch (JSONException e){}
                 try{
                     email = object.getString("email");
-                }catch (JSONException e){}
+                }catch (JSONException e){ }
 
                 try {
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
@@ -189,11 +197,16 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment fragment = null;
+        boolean FragmentSelect = false;
+
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.Profile) {
+            fragment = new Profile();
+            FragmentSelect = true;
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -205,6 +218,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+        if (FragmentSelect){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+
+            ft.replace(R.id.content_main,fragment).commit();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -214,6 +233,13 @@ public class MainActivity extends AppCompatActivity
     public void checklogin(){
         if(AccessToken.getCurrentAccessToken()!= null){
             loaduserProfile(AccessToken.getCurrentAccessToken());
+            Fragment fragment = new Profile();
+            getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).commit();
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
