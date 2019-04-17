@@ -1,8 +1,10 @@
 package com.XTEC.carpoolingtec;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -44,8 +46,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Profile.OnFragmentInteractionListener {
 
     private LoginButton login_button;
+    private SharedPreferences sharedpreferences;
     private CircleImageView circleImageView;
     private TextView txtName, txtEmail;
+    private Bundle bundle;
+    private String first_name;
+    private String last_name ;
+    private String id ;
+    private String email;
 
     private CallbackManager callbackManager;
 
@@ -67,6 +75,16 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
+        //
+        first_name = "";
+        last_name = "";
+        id = "";
+        email = "Sin Correo";
+
+        //Bundle para fragments
+        sharedpreferences = getApplicationContext().getSharedPreferences("Mypref1",MODE_PRIVATE);
+        bundle = new Bundle();
+
         //Declaracion de Variables
         login_button = (LoginButton)findViewById(R.id.login_button);
         txtName =  headerView.findViewById(R.id.txtName);
@@ -77,12 +95,11 @@ public class MainActivity extends AppCompatActivity
         login_button.setReadPermissions(Arrays.asList("email","public_profile","user_friends"));
         checklogin();
 
-        String [] Categorias = {"Pasagero", "Conductor"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,Categorias);
 
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
             }
 
 
@@ -122,11 +139,6 @@ public class MainActivity extends AppCompatActivity
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                String first_name = "";
-                String last_name = "";
-                String id = "";
-                String email = "Sin Correo";
-
                 try{
                     first_name = object.getString("first_name");
                 }catch (JSONException e){}
@@ -141,13 +153,16 @@ public class MainActivity extends AppCompatActivity
                 }catch (JSONException e){ }
 
                 try {
+                    bundle.putString("Name",first_name);
+                    bundle.putString("LName",last_name);
+                    Fragment fragment = new Profile();
+                    fragment.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).commit();
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
                     txtName.setText(first_name + " " + last_name);
                     txtEmail.setText(email);
-
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
-
                     Glide.with(MainActivity.this).load(image_url).into(circleImageView);
                 }catch (Exception e){
                     Toast.makeText(MainActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
@@ -230,11 +245,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
     public void checklogin(){
         if(AccessToken.getCurrentAccessToken()!= null){
             loaduserProfile(AccessToken.getCurrentAccessToken());
-            Fragment fragment = new Profile();
-            getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).commit();
+
         }
     }
 

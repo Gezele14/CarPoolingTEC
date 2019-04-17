@@ -31,9 +31,10 @@
         app:layout_constraintTop_toBottomOf="@+id/ProfileTitle" />
 
     <ScrollView
-        android:layout_width="379dp"
+        android:layout_width="339dp"
         android:layout_height="520dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -47,7 +48,7 @@
 
             <EditText
                 android:id="@+id/ProfileName"
-                android:layout_width="match_parent"
+                android:layout_width="328dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="70dp"
@@ -59,7 +60,7 @@
 
             <EditText
                 android:id="@+id/ProfileLName"
-                android:layout_width="match_parent"
+                android:layout_width="328dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="70dp"
@@ -71,18 +72,19 @@
 
             <EditText
                 android:id="@+id/ProfileusrName"
-                android:layout_width="match_parent"
+                android:layout_width="328dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="70dp"
                 android:ems="10"
                 android:hint="@string/usrname"
+                android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:importantForAutofill="no" tools:targetApi="o" />
+                tools:targetApi="o" />
 
             <EditText
                 android:id="@+id/profileID"
-                android:layout_width="match_parent"
+                android:layout_width="328dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="70dp"
@@ -95,6 +97,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="20dp"
 
                 android:text="@string/categoria"
@@ -102,21 +105,21 @@
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="150dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="150dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
 
                 <Button
                     android:id="@+id/btnSave"
-                    android:layout_width="64dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
                     android:layout_marginEnd="10dp"
@@ -125,7 +128,7 @@
 
                 <Button
                     android:id="@+id/btnCancel"
-                    android:layout_width="64dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
