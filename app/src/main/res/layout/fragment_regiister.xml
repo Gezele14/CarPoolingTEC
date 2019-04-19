@@ -150,24 +150,16 @@
                     android:id="@+id/btnSave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
+                    android:layout_marginStart="220dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:text="@string/Save" />
+                    android:onClick="Registrar"
+                    android:text="registrar" />
 
-                <Button
-                    android:id="@+id/btnCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="@string/Cancel" />
             </LinearLayout>
 
         </LinearLayout>
 
 
     </ScrollView>
-
-
 </LinearLayout>

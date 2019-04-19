@@ -2,6 +2,8 @@ package com.XTEC.carpoolingtec;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,43 +21,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.facebook.login.LoginManager;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Profile.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Profile.OnFragmentInteractionListener,Register.OnFragmentInteractionListener, Home.OnFragmentInteractionListener
+{
 
-    private LoginButton login_button;
-    private SharedPreferences sharedpreferences;
-    private CircleImageView circleImageView;
-    private TextView txtName, txtEmail;
-    private Bundle bundle;
-    private String first_name;
-    private String last_name ;
-    private String id ;
-    private String email;
-
-    private CallbackManager callbackManager;
+    private NavigationView navigationView;
+    private Fragment fragment;
+    private View headerView;
+    private String usrName, usrLName, usrid;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,110 +47,33 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        headerView = navigationView.getHeaderView(0);
+
+
+        fragment = new Home();
+        ((Home) fragment).setHeaderview(headerView);
+        getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).commit();
+
+        //Facebook user data
+        usrName = ((Home) fragment).getFirst_name();
+        usrLName = ((Home) fragment).getLast_name();
+        usrid = ((Home) fragment).getid();
+
+        //pack usr Data
+        bundle = new Bundle();
+        bundle.putString("Name", usrName);
+        bundle.putString("LName",usrLName);
+        bundle.putString("id",usrid);
+
+    }
+
+    public View hview(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-
-        //
-        first_name = "";
-        last_name = "";
-        id = "";
-        email = "Sin Correo";
-
-        //Bundle para fragments
-        sharedpreferences = getApplicationContext().getSharedPreferences("Mypref1",MODE_PRIVATE);
-        bundle = new Bundle();
-
-        //Declaracion de Variables
-        login_button = (LoginButton)findViewById(R.id.login_button);
-        txtName =  headerView.findViewById(R.id.txtName);
-        txtEmail =  headerView.findViewById(R.id.txtEmail);
-        circleImageView = (CircleImageView) headerView.findViewById(R.id.profile_image);
-
-        callbackManager = CallbackManager.Factory.create();
-        login_button.setReadPermissions(Arrays.asList("email","public_profile","user_friends"));
-        checklogin();
-
-
-        login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-            }
-
-
-            @Override
-            public void onCancel() {
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode,resultCode,data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    AccessTokenTracker tokenTracker = new AccessTokenTracker() {
-
-        @Override
-        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-            if (currentAccessToken == null){
-                txtName.setText(" ");
-                txtEmail.setText(" ");
-                circleImageView.setImageResource(0);
-                Toast.makeText(MainActivity.this, "Sin inicio de Sesion", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                loaduserProfile(currentAccessToken);
-            }
-        }
-    };
-
-    private void loaduserProfile(AccessToken newAccessToken){
-        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-                try{
-                    first_name = object.getString("first_name");
-                }catch (JSONException e){}
-                try{
-                    last_name = object.getString("last_name");
-                }catch (JSONException e){}
-                try{
-                    id = object.getString("id");
-                }catch (JSONException e){}
-                try{
-                    email = object.getString("email");
-                }catch (JSONException e){ }
-
-                try {
-                    bundle.putString("Name",first_name);
-                    bundle.putString("LName",last_name);
-                    Fragment fragment = new Profile();
-                    fragment.setArguments(bundle);
-                    getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).commit();
-                    String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
-                    txtName.setText(first_name + " " + last_name);
-                    txtEmail.setText(email);
-                    RequestOptions requestOptions = new RequestOptions();
-                    requestOptions.dontAnimate();
-                    Glide.with(MainActivity.this).load(image_url).into(circleImageView);
-                }catch (Exception e){
-                    Toast.makeText(MainActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields","first_name,last_name,email,id");
-        request.setParameters(parameters);
-        request.executeAsync();
-
+        return headerView;
     }
 
     @Override
@@ -212,32 +111,35 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment fragment = null;
+        Fragment fragMenu = null;
         boolean FragmentSelect = false;
+        boolean logout = false;
 
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.Profile) {
-            fragment = new Profile();
+            fragMenu = new Profile();
+            fragMenu.setArguments(bundle);
             FragmentSelect = true;
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_home) {
+            fragMenu = fragment;
+            FragmentSelect = true;
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logout) {
+            fragMenu = fragment;
+            logout = true;
+            FragmentSelect = true;
         }
+
         if (FragmentSelect){
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-
-            ft.replace(R.id.content_main,fragment).commit();
+            ft.replace(R.id.content_main,fragMenu).commit();
+            if(logout){
+                ((Home) fragment).logout();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -246,15 +148,10 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void checklogin(){
-        if(AccessToken.getCurrentAccessToken()!= null){
-            loaduserProfile(AccessToken.getCurrentAccessToken());
-
-        }
-    }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }

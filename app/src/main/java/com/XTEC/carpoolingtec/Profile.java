@@ -1,6 +1,8 @@
 package com.XTEC.carpoolingtec;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,15 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class Profile extends Fragment {
 
     private Spinner spiner1;
     private EditText Name,LName,usrName,usrId;
-    private String sName,sLName;
+    private String sName,sLName,id;
+    private Button guardar;
 
     public Profile() {
         // Required empty public constructor
@@ -26,8 +31,9 @@ public class Profile extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            sName = getArguments().getString("Name","456");
+            sName = getArguments().getString("Name","");
             sLName = getArguments().getString("LName","");
+            id = getArguments().getString("ID","");
         }
 
 
@@ -43,53 +49,56 @@ public class Profile extends Fragment {
         usrName = (EditText) view.findViewById(R.id.ProfileusrName);
         usrId = (EditText) view.findViewById(R.id.profileID);
         spiner1 = (Spinner) view.findViewById(R.id.spinner);
+        guardar = (Button) view.findViewById(R.id.btnSave);
 
         //Llenado del spinner
         String [] Categorias = {"Pasagero", "Conductor"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,Categorias);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item_milayout,Categorias);
         spiner1.setAdapter(adapter);
+        try {
+            guardar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    editar(v);
+                }
+            });
+            //Obtenciuon de valores
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "CarPoolinTEC", null, 1);
+            SQLiteDatabase db = admin.getWritableDatabase();
 
+            //Cursor fila = db.rawQuery("SELECT Nombre,Apellido,usrName,idUni,idFB  FROM Usuario WHERE idFB ="+id, null);
+        }catch (Exception e){
+            Name.setText(e.getMessage().toString());
+            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
         //llenado de valores
-        Name.setText(sName);
-        Name.setEnabled(false);
-        LName.setText(sLName);
+        /*
+        if(fila.moveToFirst()){
+            Name.setText(fila.getString(0));
+            LName.setText(fila.getString(1));
+            usrName.setText(fila.getString(2));
+            usrId.setText(fila.getString(3));
+
+        }*/
+
+       // Name.setEnabled(false);
         LName.setEnabled(false);
+        usrName.setEnabled(false);
+        usrId.setEnabled(false);
 
         return  view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-
+    //Metodo para agregar el ucuario{
+    public void editar(View view) {
+        Toast.makeText(getContext(),"Es solo una prueba",Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 }
