@@ -1,14 +1,7 @@
 package com.XTEC.carpoolingtec;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.facebook.login.LoginManager;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Profile.OnFragmentInteractionListener,Register.OnFragmentInteractionListener, Home.OnFragmentInteractionListener
@@ -54,7 +47,7 @@ public class MainActivity extends AppCompatActivity
 
         fragment = new Home();
         ((Home) fragment).setHeaderview(headerView);
-        getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).addToBackStack(null).commit();
 
         //Facebook user data
         usrName = ((Home) fragment).getFirst_name();
@@ -121,13 +114,22 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.Profile) {
             fragMenu = new Profile();
+            usrName = ((Home) fragment).getFirst_name();
+            usrLName = ((Home) fragment).getLast_name();
+            usrid = ((Home) fragment).getid();
+            bundle.putString("Name", usrName);
+            bundle.putString("LName",usrLName);
+            bundle.putString("id",usrid);
             fragMenu.setArguments(bundle);
             FragmentSelect = true;
         } else if (id == R.id.nav_home) {
             fragMenu = fragment;
             FragmentSelect = true;
-
         } else if (id == R.id.nav_logout) {
+            fragMenu = fragment;
+            logout = true;
+            FragmentSelect = true;
+        } else if(id == R.id.nav_remove){
             fragMenu = fragment;
             logout = true;
             FragmentSelect = true;
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity
         if (FragmentSelect){
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.content_main,fragMenu).commit();
+            ft.replace(R.id.content_main,fragMenu).addToBackStack(null).commit();
             if(logout){
                 ((Home) fragment).logout();
             }
@@ -148,10 +150,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 
 
 }

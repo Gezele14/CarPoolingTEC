@@ -21,7 +21,7 @@ public class Profile extends Fragment {
     private Spinner spiner1;
     private EditText Name,LName,usrName,usrId;
     private String sName,sLName,id;
-    private Button guardar;
+    private Button guardar, cancelar;
 
     public Profile() {
         // Required empty public constructor
@@ -33,7 +33,7 @@ public class Profile extends Fragment {
         if (getArguments() != null) {
             sName = getArguments().getString("Name","");
             sLName = getArguments().getString("LName","");
-            id = getArguments().getString("ID","");
+            id = getArguments().getString("id","");
         }
 
 
@@ -50,36 +50,30 @@ public class Profile extends Fragment {
         usrId = (EditText) view.findViewById(R.id.profileID);
         spiner1 = (Spinner) view.findViewById(R.id.spinner);
         guardar = (Button) view.findViewById(R.id.btnSave);
+        cancelar = (Button) view.findViewById(R.id.btnCancel);
+
+
 
         //Llenado del spinner
         String [] Categorias = {"Pasagero", "Conductor"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item_milayout,Categorias);
         spiner1.setAdapter(adapter);
-        try {
-            guardar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    editar(v);
-                }
-            });
-            //Obtenciuon de valores
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "CarPoolinTEC", null, 1);
-            SQLiteDatabase db = admin.getWritableDatabase();
 
-            //Cursor fila = db.rawQuery("SELECT Nombre,Apellido,usrName,idUni,idFB  FROM Usuario WHERE idFB ="+id, null);
-        }catch (Exception e){
-            Name.setText(e.getMessage().toString());
-            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        //llenado de valores
-        /*
-        if(fila.moveToFirst()){
-            Name.setText(fila.getString(0));
-            LName.setText(fila.getString(1));
-            usrName.setText(fila.getString(2));
-            usrId.setText(fila.getString(3));
+        //Funciones botones
+        guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editar(v);
+            }
+        });
 
-        }*/
+        cancelar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                cancelar(v);
+            }
+        });
+
 
        // Name.setEnabled(false);
         LName.setEnabled(false);
@@ -89,9 +83,19 @@ public class Profile extends Fragment {
         return  view;
     }
 
+    //Metodo para ir atras
+    public void cancelar(View view){
+        try {
+            int g = ((MainActivity)getContext()).getFragmentManager().getBackStackEntryCount();
+            Toast.makeText(getContext(), ""+g, Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     //Metodo para agregar el ucuario{
     public void editar(View view) {
-        Toast.makeText(getContext(),"Es solo una prueba",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"Boton para registrar",Toast.LENGTH_SHORT).show();
     }
 
     public interface OnFragmentInteractionListener {

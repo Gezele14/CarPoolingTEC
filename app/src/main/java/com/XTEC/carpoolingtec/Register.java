@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 public class Register extends Fragment {
     private Spinner spiner1;
     private EditText Name,LName,usrName,usrId;
+    private Button btnSave;
     private String sName,sLName,id;
 
 
@@ -44,11 +46,12 @@ public class Register extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_regiister, container, false);
-        Name = (EditText) view.findViewById(R.id.ProfileName);
-        LName = (EditText) view.findViewById(R.id.ProfileLName);
-        usrName = (EditText) view.findViewById(R.id.ProfileusrName);
-        usrId = (EditText) view.findViewById(R.id.profileID);
+        Name = (EditText) view.findViewById(R.id.ProfileNameR);
+        LName = (EditText) view.findViewById(R.id.ProfileLNameR);
+        usrName = (EditText) view.findViewById(R.id.ProfileusrNameR);
+        usrId = (EditText) view.findViewById(R.id.profileIDR);
         spiner1 = (Spinner) view.findViewById(R.id.spinner);
+        btnSave = (Button) view.findViewById(R.id.btnSave);
 
         //Llenado del spinner
         String [] Categorias = {"Pasagero", "Conductor"};
@@ -63,45 +66,26 @@ public class Register extends Fragment {
         usrName.setText("Meca14");
         usrId.setText("2016243863");
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "CarPoolinTEC", null, 1);
-        SQLiteDatabase db = admin.getWritableDatabase();
-
-        String Nombre = Name.getText().toString();
-        String Apellidos = LName.getText().toString();
-        String UsrName = usrName.getText().toString();
-        String idUni = usrId.getText().toString();
-        String Categoria = spiner1.getSelectedItem().toString();
-
-        if (!UsrName.isEmpty() && !idUni.isEmpty()) {
-            ContentValues values = new ContentValues();
-            values.put("idFB", id);
-            values.put("Nombre", Nombre);
-            values.put("Apellido", Apellidos);
-            values.put("idUni", idUni);
-            values.put("Categoria", Categoria);
-
-            db.insert("Usuario", null, values);
-            db.close();
-            Toast.makeText(getContext(), "Usuario registrado", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Por favor llenar todos los datos", Toast.LENGTH_SHORT).show();
-        }
+        //Accion de los botones
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Registrar(v);
+            }
+        });
 
         return  view;
     }
 
     //Metodo para agregar el ucuario{
-    public void Registrar(){
-        Toast.makeText(getContext(), "Por favor llenar todos los datos", Toast.LENGTH_SHORT).show();
-        /*
+    public void Registrar(View view){
         try {
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getContext(), "CarPoolinTEC", null, 1);
-            SQLiteDatabase db = admin.getWritableDatabase();
 
             String Nombre = Name.getText().toString();
             String Apellidos = LName.getText().toString();
             String UsrName = usrName.getText().toString();
             String idUni = usrId.getText().toString();
+            String Categoria = spiner1.getSelectedItem().toString();
 
             if (!UsrName.isEmpty() && !idUni.isEmpty()) {
                 ContentValues values = new ContentValues();
@@ -111,15 +95,13 @@ public class Register extends Fragment {
                 values.put("idUni", idUni);
                 values.put("Categoria", Categoria);
 
-                db.insert("Usuario", null, values);
-                db.close();
                 Toast.makeText(getContext(), "Usuario registrado", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Por favor llenar todos los datos", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             //Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
     public interface OnFragmentInteractionListener {

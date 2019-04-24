@@ -58,7 +58,7 @@
                         android:textSize="20sp" />
 
                     <EditText
-                        android:id="@+id/ProfileName"
+                        android:id="@+id/ProfileNameR"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -76,7 +76,7 @@
                         android:textSize="20sp" />
 
                     <EditText
-                        android:id="@+id/ProfileLName"
+                        android:id="@+id/ProfileLNameR"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -94,7 +94,7 @@
                         android:textSize="20sp" />
 
                     <EditText
-                        android:id="@+id/ProfileusrName"
+                        android:id="@+id/ProfileusrNameR"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -112,7 +112,7 @@
                         android:textSize="20sp" />
 
                     <EditText
-                        android:id="@+id/profileID"
+                        android:id="@+id/profileIDR"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -153,7 +153,6 @@
                     android:layout_marginStart="220dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:onClick="Registrar"
                     android:text="registrar" />
 
             </LinearLayout>

@@ -134,7 +134,7 @@ public class Home extends Fragment {
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null){
                 txtName.setText("Nombre");
-                txtName.setText("example@android.com");
+                txtEmail.setText("example@android.com");
                 circleImageView.setImageResource(R.mipmap.ic_launcher);
                 Toast.makeText(getContext(), "Sesion cerrada", Toast.LENGTH_SHORT).show();
             }
@@ -168,19 +168,9 @@ public class Home extends Fragment {
                     bundle.putString("LName",last_name);
                     bundle.putString("id",id);
 
-                    /*AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(MainActivity.this, "CarPoolinTEC", null ,1);
-                    SQLiteDatabase db = admin.getWritableDatabase();
-
-                    Cursor fila = db.rawQuery("SELECT idFB FROM Usuario WHERE idFB = "+id,null);
-                    if (!fila.moveToFirst()){
-                        Fragment fragment = new Register();
-                        fragment.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).commit();
-                        Toast.makeText(MainActivity.this,"Por favor complete el perfil para el registro",Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this,"perfil no existe",Toast.LENGTH_LONG).show();
-                    }*/
+                    Fragment fragment = new Register();
+                    fragment.setArguments(bundle);
+                    ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
 
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
                     txtName.setText(first_name + " " + last_name);
