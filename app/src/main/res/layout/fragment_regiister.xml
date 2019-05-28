@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="@string/ProfileTitle"
+        android:text="Nuevo Usuario"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -29,136 +29,142 @@
         android:textSize="18sp" />
 
     <ScrollView
-        android:layout_width="339dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp">
+        android:layout_width="352dp"
+        android:layout_marginLeft="5dp"
+        android:layout_height="383dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/label1"
+                android:layout_width="152dp"
+                android:layout_height="wrap_content"
+                android:text="@string/Nombre"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="152dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/Nombre"
-                        android:textSize="20sp" />
-
-                    <EditText
-                        android:id="@+id/ProfileNameR"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:importantForAutofill="no"
-                        android:inputType="textPersonName"
-                        android:textSize="16dp"
-                        tools:targetApi="o" />
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/Apellidos"
-                        android:textSize="20sp" />
-
-                    <EditText
-                        android:id="@+id/ProfileLNameR"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:importantForAutofill="no"
-                        android:inputType="textPersonName"
-                        android:textSize="16dp"
-                        tools:targetApi="o" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/usrname"
-                        android:textSize="20sp" />
-
-                    <EditText
-                        android:id="@+id/ProfileusrNameR"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:importantForAutofill="no"
-                        android:inputType="textPersonName"
-                        android:textSize="16dp"
-                        tools:targetApi="o" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/ProfileID"
-                        android:textSize="20sp" />
-
-                    <EditText
-                        android:id="@+id/profileIDR"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:importantForAutofill="no"
-                        android:inputType="textPersonName"
-                        android:textSize="16dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                tools:targetApi="o" />
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/categoria"
-                android:textAlignment="viewStart"
-                android:textSize="20sp" />
-
-            <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/label2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="150dp" />
+                android:layout_marginTop="3dp"
+                android:text="@string/Correo"
+                android:textSize="14sp" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/txtMail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                tools:targetApi="o" />
 
+            <TextView
+                android:id="@+id/label3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/cedula"
+                android:textSize="14sp" />
 
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="220dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="registrar" />
+            <EditText
+                android:id="@+id/txtCedula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                tools:targetApi="o" />
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/label4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/ProfileID"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txtId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/label5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Contraseña"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txtPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/label6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Confirmar ontraseña"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txtPassConf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/label7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Número de Teléfono"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textSize="12sp" />
 
         </LinearLayout>
-
-
     </ScrollView>
+
+    <Button
+        android:id="@+id/createUsr"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="Crear Cuenta" />
 </LinearLayout>

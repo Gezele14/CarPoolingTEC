@@ -10,9 +10,9 @@
     <string name="fb_login_protocol_scheme">fb346385579340324</string>
     <string name="ProfileTitle">Perfil de usuario</string>
     <string name="ProfileDesc">Complete o cambie los datos de su perfil.</string>
-    <string name="Nombre">Nombre:</string>
-    <string name="Apellidos">Apellidos:</string>
-    <string name="usrname">Nombre de Usuario:</string>
+    <string name="Nombre">Nombre completo:</string>
+    <string name="Correo">Correo institucional:</string>
+    <string name="cedula">Número de cédula:</string>
     <string name="ProfileID">Id. Universitario:</string>
     <string name="Save">Guardar</string>
     <string name="Cancel">Cancelar</string>

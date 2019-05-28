@@ -14,10 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Profile.OnFragmentInteractionListener,Register.OnFragmentInteractionListener, Home.OnFragmentInteractionListener
+        implements NavigationView.OnNavigationItemSelectedListener,Register.OnFragmentInteractionListener, fb.OnFragmentInteractionListener, Login.OnFragmentInteractionListener
 {
 
     private NavigationView navigationView;
@@ -45,22 +46,10 @@ public class MainActivity extends AppCompatActivity
         headerView = navigationView.getHeaderView(0);
 
 
-        fragment = new Home();
-        ((Home) fragment).setHeaderview(headerView);
-        getSupportFragmentManager().beginTransaction().add(R.id.content_main,fragment).addToBackStack(null).commit();
+        fragment = new Login();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).addToBackStack(null).commit();
 
-        //Facebook user data
-        usrName = ((Home) fragment).getFirst_name();
-        usrLName = ((Home) fragment).getLast_name();
-        usrid = ((Home) fragment).getid();
-
-        //pack usr Data
-        bundle = new Bundle();
-        bundle.putString("Name", usrName);
-        bundle.putString("LName",usrLName);
-        bundle.putString("id",usrid);
-
-    }
+      }
 
     public View hview(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -89,7 +78,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the LoginFB/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -113,15 +102,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.Profile) {
-            fragMenu = new Profile();
-            usrName = ((Home) fragment).getFirst_name();
-            usrLName = ((Home) fragment).getLast_name();
-            usrid = ((Home) fragment).getid();
-            bundle.putString("Name", usrName);
-            bundle.putString("LName",usrLName);
-            bundle.putString("id",usrid);
-            fragMenu.setArguments(bundle);
-            FragmentSelect = true;
         } else if (id == R.id.nav_home) {
             fragMenu = fragment;
             FragmentSelect = true;
@@ -139,9 +119,6 @@ public class MainActivity extends AppCompatActivity
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.content_main,fragMenu).addToBackStack(null).commit();
-            if(logout){
-                ((Home) fragment).logout();
-            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
