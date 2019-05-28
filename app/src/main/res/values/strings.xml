@@ -6,6 +6,18 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="facebook_app_id">346385579340324</string> <string name="fb_login_protocol_scheme">fb346385579340324</string>
+    <string name="facebook_app_id">346385579340324</string>
+    <string name="fb_login_protocol_scheme">fb346385579340324</string>
+    <string name="ProfileTitle">Perfil de usuario</string>
+    <string name="ProfileDesc">Complete o cambie los datos de su perfil.</string>
+    <string name="Nombre">Nombre completo:</string>
+    <string name="Correo">Correo institucional:</string>
+    <string name="cedula">Número de cédula:</string>
+    <string name="ProfileID">Id. Universitario:</string>
+    <string name="Save">Guardar</string>
+    <string name="Cancel">Cancelar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="categoria">Categoria:</string>
 
 </resources>
