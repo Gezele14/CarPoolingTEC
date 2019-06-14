@@ -21,7 +21,9 @@ import Data.Usuario;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,Register.OnFragmentInteractionListener, fb.OnFragmentInteractionListener, Login.OnFragmentInteractionListener, Inicio.OnFragmentInteractionListener, Canjeo.OnFragmentInteractionListener
+        implements NavigationView.OnNavigationItemSelectedListener,Register.OnFragmentInteractionListener, fb.OnFragmentInteractionListener, Login.OnFragmentInteractionListener, Inicio.OnFragmentInteractionListener,
+        Canjeo.OnFragmentInteractionListener, Autos.OnFragmentInteractionListener, addAuto.OnFragmentInteractionListener
+
 {
 
     private NavigationView navigationView;
@@ -114,6 +116,9 @@ public class MainActivity extends AppCompatActivity
             FragmentSelect = true;
         } else if (id == R.id.canjear) {
             fragMenu = new Canjeo();
+            FragmentSelect = true;
+        } else if (id == R.id.autos) {
+            fragMenu = new Autos();
             FragmentSelect = true;
         }else if (id == R.id.nav_logout) {
             fragMenu = fragment;

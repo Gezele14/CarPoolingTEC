@@ -16,6 +16,10 @@
             android:id="@+id/canjear"
             android:icon="@drawable/qrcode"
             android:title="Canjear código" />
+        <item
+            android:id="@+id/autos"
+            android:icon="@drawable/car"
+            android:title="Mis autos" />
 
     </group>
 
