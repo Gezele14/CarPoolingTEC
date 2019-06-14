@@ -9,35 +9,35 @@
     tools:context=".Inicio">
 
 
-    <ImageView
-        android:id="@+id/imageView"
+    <Button
+        android:id="@+id/estat_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:src="@drawable/estat_btn"
+        android:layout_marginTop="140dp"
+        android:background="@drawable/estat_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <Button
+        android:id="@+id/viaje_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:src="@drawable/viaje_btn"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/viaje_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/estat_btn" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="344dp"
         android:layout_height="1dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="164dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/viaje_btn" />
 
     <TextView
         android:id="@+id/textView"
