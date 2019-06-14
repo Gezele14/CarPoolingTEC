@@ -7,12 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 public class Inicio extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private Button Stat, viaje;
+    private TextView Puntos;
 
     private String mParam1;
     private String mParam2;
@@ -42,10 +47,19 @@ public class Inicio extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio, container, false);
+        View view = inflater.inflate(R.layout.fragment_inicio, container, false);
+
+        //Intancias de los elementos graficos
+        Stat = (Button) view.findViewById(R.id.estat_btn);
+        viaje = (Button) view.findViewById(R.id.viaje_btn);
+        Puntos = (TextView) view.findViewById(R.id.puntos);
+
+        //Dar valor a los lables
+        Puntos.setText(((MainActivity)getContext()).usuario.getCant_puntos()+ " pts.");
+
+        return view;
     }
 
     public interface OnFragmentInteractionListener {

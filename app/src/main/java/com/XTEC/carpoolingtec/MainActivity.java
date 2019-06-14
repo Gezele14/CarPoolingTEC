@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
 
     private NavigationView navigationView;
     private Fragment fragment;
+    public  DrawerLayout drawer;
     private View headerView;
     private String usrName, usrLName, usrid;
 
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -108,9 +110,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.Profile) {
         } else if (id == R.id.nav_home) {
+            fragMenu = fragment;
+            FragmentSelect = true;
+        } else if (id == R.id.canjear) {
             fragMenu = new Canjeo();
             FragmentSelect = true;
-        } else if (id == R.id.nav_logout) {
+        }else if (id == R.id.nav_logout) {
             fragMenu = fragment;
             logout = true;
             FragmentSelect = true;

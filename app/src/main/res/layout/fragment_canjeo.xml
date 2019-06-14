@@ -11,11 +11,25 @@
 
     <ImageView
         android:id="@+id/qrCode"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="260dp"
+        android:layout_height="266dp"
         android:src="@drawable/com_facebook_auth_dialog_cancel_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.228" />
+
+    <Button
+        android:id="@+id/QRcancel_btn"
+        android:layout_width="201dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qrCode"
+        app:layout_constraintVertical_bias="0.862" />
 </android.support.constraint.ConstraintLayout>

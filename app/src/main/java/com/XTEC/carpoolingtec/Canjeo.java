@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.zxing.WriterException;
@@ -23,6 +24,7 @@ public class Canjeo extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private  ImageView qrCode;
+    private Button Cancel;
 
     private String mParam1;
     private String mParam2;
@@ -64,20 +66,35 @@ public class Canjeo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_canjeo, container, false);
         qrCode = (ImageView) view.findViewById(R.id.qrCode);
+        Cancel = (Button) view.findViewById(R.id.QRcancel_btn);
 
+        //Generar QR
+        generateQR();
+
+        //Accion de los botones
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel(v);
+            }
+        });
+        return view;
+    }
+
+    private  void cancel(View v){
+        ((MainActivity)getContext()).getSupportFragmentManager().popBackStack();
+    }
+
+    private void generateQR(){
         int puntos = ((MainActivity)getContext()).usuario.getCant_puntos();
         String str_puntos = Integer.toString(puntos);
-
-        QRGEncoder qrgEncoder = new QRGEncoder(str_puntos, null, QRGContents.Type.TEXT, 300);
-
+        QRGEncoder qrgEncoder = new QRGEncoder(str_puntos, null, QRGContents.Type.TEXT, 500);
         try{
             Bitmap bitmap = qrgEncoder.encodeAsBitmap();
             qrCode.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
         }
-
-        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

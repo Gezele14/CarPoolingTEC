@@ -4,6 +4,7 @@ package com.XTEC.carpoolingtec;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class Login extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login,container,false);
+        ((MainActivity)getContext()).drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         Usuario = (EditText) view.findViewById(R.id.User);
         Passwarod = (EditText) view.findViewById(R.id.pass);
@@ -45,6 +47,12 @@ public class Login extends Fragment {
                 registro(v);
             }
         });
+        Login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login(v);
+            }
+        });
         return view;
     }
 
@@ -52,6 +60,14 @@ public class Login extends Fragment {
     public void registro(View view) {
         Fragment fragment = new Register();
         ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+        ((MainActivity)getContext()).drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    //Metodo para iniciar sesion
+    public void login(View view) {
+        Fragment fragment = new fb();
+        ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+        ((MainActivity)getContext()).drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     public interface OnFragmentInteractionListener {
