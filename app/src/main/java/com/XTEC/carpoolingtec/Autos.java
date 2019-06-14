@@ -1,6 +1,9 @@
 package com.XTEC.carpoolingtec;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -61,8 +64,20 @@ public class Autos extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_autos, container, false);
 
+        //Seteo de la barra de navegacion
+        ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.autos);
+
+
         //Intancias de los elementos;
         addAuto = (Button) view.findViewById(R.id.addAuto_btn);
+
+        //Mensaje si no hay autos
+        ((MainActivity)getContext()).usuario.setCant_autos(0);
+        if(((MainActivity)getContext()).usuario.getCant_autos() == 0){
+            Dialogs dialogs = new Dialogs();
+            dialogs.Alert(getContext(),"Sin Autos","Esta cuenta no posee Autos");
+        }
+
 
         //Acciones de los botones
         addAuto.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +99,7 @@ public class Autos extends Fragment {
             Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
-        }
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

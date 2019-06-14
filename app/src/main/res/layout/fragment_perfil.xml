@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".Profile">
+    tools:context=".Perfil">
 
-
+    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/ProfileTitle"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:text="Complete los datos para crear una cuenta"
+        android:text="@string/ProfileDesc"
         android:textSize="18sp" />
 
     <ScrollView
@@ -49,6 +49,7 @@
                 android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:ems="10"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
@@ -67,6 +68,7 @@
                 android:id="@+id/txtMail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:ems="10"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
@@ -85,6 +87,7 @@
                 android:id="@+id/txtCedula"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:ems="10"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
@@ -103,6 +106,7 @@
                 android:id="@+id/txtId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:ems="10"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
@@ -162,9 +166,23 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/save_btn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:text="Crear Cuenta" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_marginLeft="9dp"
+            android:layout_width="171dp"
+            android:layout_height="36dp"
+            android:text="Guardar" />
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="171dp"
+            android:layout_height="36dp"
+            android:text="Cancelar" />
+    </LinearLayout>
+
 </LinearLayout>

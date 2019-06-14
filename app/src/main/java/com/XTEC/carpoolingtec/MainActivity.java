@@ -16,23 +16,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+
 import Data.Usuario;
 
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,Register.OnFragmentInteractionListener, fb.OnFragmentInteractionListener, Login.OnFragmentInteractionListener, Inicio.OnFragmentInteractionListener,
-        Canjeo.OnFragmentInteractionListener, Autos.OnFragmentInteractionListener, addAuto.OnFragmentInteractionListener
+        Canjeo.OnFragmentInteractionListener, Autos.OnFragmentInteractionListener, addAuto.OnFragmentInteractionListener, Dashboards.OnFragmentInteractionListener, Inv_viaje.OnFragmentInteractionListener,
+        n_viaje.OnFragmentInteractionListener, Amigos.OnFragmentInteractionListener, Perfil.OnFragmentInteractionListener
 
 {
 
-    private NavigationView navigationView;
+    public NavigationView navigationView;
     private Fragment fragment;
     public  DrawerLayout drawer;
     private View headerView;
     private String usrName, usrLName, usrid;
 
     public Usuario usuario = new Usuario();
+    public Dialogs dialogs = new Dialogs();
     Bundle bundle;
 
     @Override
@@ -111,8 +115,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.Profile) {
+            fragMenu = new Perfil();
+            FragmentSelect = true;
         } else if (id == R.id.nav_home) {
-            fragMenu = fragment;
+            fragMenu = new Inicio();
             FragmentSelect = true;
         } else if (id == R.id.canjear) {
             fragMenu = new Canjeo();
@@ -120,9 +126,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.autos) {
             fragMenu = new Autos();
             FragmentSelect = true;
+        }else if (id == R.id.amigos) {
+            fragMenu = new Amigos();
+            FragmentSelect = true;
         }else if (id == R.id.nav_logout) {
             fragMenu = fragment;
-            logout = true;
+            LoginManager.getInstance().logOut();
+            FragmentManager fm = getSupportFragmentManager();
+            for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
             FragmentSelect = true;
         } else if(id == R.id.nav_remove){
             fragMenu = fragment;

@@ -20,6 +20,10 @@
             android:id="@+id/autos"
             android:icon="@drawable/car"
             android:title="Mis autos" />
+        <item
+            android:id="@+id/amigos"
+            android:icon="@drawable/friend"
+            android:title="Mis Amigos" />
 
     </group>
 
