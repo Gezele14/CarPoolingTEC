@@ -101,7 +101,7 @@ public class fb extends Fragment {
                 try {
                     Bundle bundle = new Bundle();
 
-                    Fragment fragment = new Login();
+                    Fragment fragment = new Inicio();
                     ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
 
                     RequestOptions requestOptions = new RequestOptions();
@@ -112,11 +112,8 @@ public class fb extends Fragment {
                 }
             }
         });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields","first_name,last_name,email,id");
-        request.setParameters(parameters);
-        request.executeAsync();
 
+        request.executeAsync();
     }
 
     public void checklogin(){

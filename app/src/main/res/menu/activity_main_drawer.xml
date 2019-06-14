@@ -12,6 +12,10 @@
             android:id="@+id/Profile"
             android:icon="@drawable/profile"
             android:title="Perfil" />
+        <item
+            android:id="@+id/canjear"
+            android:icon="@drawable/qrcode"
+            android:title="Canjear código" />
 
     </group>
 

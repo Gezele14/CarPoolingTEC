@@ -16,15 +16,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import Data.Usuario;
+
+
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,Register.OnFragmentInteractionListener, fb.OnFragmentInteractionListener, Login.OnFragmentInteractionListener
+        implements NavigationView.OnNavigationItemSelectedListener,Register.OnFragmentInteractionListener, fb.OnFragmentInteractionListener, Login.OnFragmentInteractionListener, Inicio.OnFragmentInteractionListener, Canjeo.OnFragmentInteractionListener
 {
 
     private NavigationView navigationView;
     private Fragment fragment;
     private View headerView;
     private String usrName, usrLName, usrid;
+
+    public Usuario usuario = new Usuario();
     Bundle bundle;
 
     @Override
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 
 
         fragment = new Login();
-        getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).disallowAddToBackStack().commit();
 
       }
 
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.Profile) {
         } else if (id == R.id.nav_home) {
-            fragMenu = fragment;
+            fragMenu = new Canjeo();
             FragmentSelect = true;
         } else if (id == R.id.nav_logout) {
             fragMenu = fragment;
