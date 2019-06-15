@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,6 +105,8 @@ public class fb extends Fragment {
 
                     Fragment fragment = new Inicio();
                     ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+
+                    ((MainActivity)getContext()).drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();

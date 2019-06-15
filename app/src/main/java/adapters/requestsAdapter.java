@@ -13,30 +13,30 @@ import java.util.ArrayList;
 
 import Data.Usuario;
 
-public class friendAdapter extends RecyclerView.Adapter<friendAdapter.ViewHolderData> {
+public class requestsAdapter extends RecyclerView.Adapter<requestsAdapter.ViewHolderData> {
 
     private ArrayList<Usuario> friendData;
-    private Onclick mOnClick;
+    private requestsAdapter.Onclick mOnClick;
 
-    public friendAdapter(ArrayList<Usuario> friendData, Onclick mOnClick) {
+    public requestsAdapter(ArrayList<Usuario> friendData, requestsAdapter.Onclick mOnClick) {
         this.friendData = friendData;
         this.mOnClick = mOnClick;
     }
 
-    public friendAdapter(ArrayList<Usuario> friendData) {
+    public requestsAdapter(ArrayList<Usuario> friendData) {
         this.friendData = friendData;
         this.mOnClick = mOnClick;
     }
 
     @NonNull
     @Override
-    public ViewHolderData onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public requestsAdapter.ViewHolderData onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_friend,null,false);
-        return new ViewHolderData(view, mOnClick);
+        return new requestsAdapter.ViewHolderData(view, mOnClick);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderData viewHolderData, int i) {
+    public void onBindViewHolder(@NonNull requestsAdapter.ViewHolderData viewHolderData, int i) {
         viewHolderData.asignarData(friendData.get(i));
     }
 
@@ -48,9 +48,9 @@ public class friendAdapter extends RecyclerView.Adapter<friendAdapter.ViewHolder
     public class ViewHolderData extends RecyclerView.ViewHolder implements View.OnClickListener  {
 
         TextView nombre, telefono;
-        Onclick onClickListener;
+        requestsAdapter.Onclick onClickListener;
 
-        public ViewHolderData(@NonNull View itemView, Onclick onClickListener) {
+        public ViewHolderData(@NonNull View itemView, requestsAdapter.Onclick onClickListener) {
             super(itemView);
             nombre = itemView.findViewById(R.id.friend_name);
             telefono = itemView.findViewById(R.id.friend_phone);
@@ -65,13 +65,14 @@ public class friendAdapter extends RecyclerView.Adapter<friendAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            onClickListener.onClickfriendAdapter(getAdapterPosition());
+            onClickListener.onClickrequestAdapter(getAdapterPosition());
         }
 
 
     }
 
     public interface  Onclick{
-        void onClickfriendAdapter(int pos);
+        void onClickrequestAdapter(int pos);
     }
+
 }

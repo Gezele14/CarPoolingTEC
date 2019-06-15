@@ -129,6 +129,14 @@ public class MainActivity extends AppCompatActivity
         usuario.addAmigo(new Usuario("Emmanuel Martinez",78523642));
         usuario.addAmigo(new Usuario("Olman Zeledon",86243685));
 
+        //Solicitudes
+        usuario.addSolicitud(new Usuario("Roberto Rodriguez",71892657));
+        usuario.addSolicitud(new Usuario("Maria Cortez",85783695));
+        usuario.addSolicitud(new Usuario("Mario Perez",75142863));
+        usuario.addSolicitud(new Usuario("Juan Pereira",92653896));
+        usuario.addSolicitud(new Usuario("Emmanuel Martinez",78523642));
+        usuario.addSolicitud(new Usuario("Olman Zeledon",86243685));
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

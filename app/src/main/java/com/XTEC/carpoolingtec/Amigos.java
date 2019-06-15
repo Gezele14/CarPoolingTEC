@@ -1,6 +1,8 @@
 package com.XTEC.carpoolingtec;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,14 +17,16 @@ import java.util.ArrayList;
 
 import Data.Usuario;
 import adapters.friendAdapter;
+import adapters.requestsAdapter;
 
 
-public class Amigos extends Fragment implements friendAdapter.Onclick {
+public class Amigos extends Fragment implements friendAdapter.Onclick, requestsAdapter.Onclick  {
 
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView recyclerSolicitudes,recyclerAmigos;
     private friendAdapter adapterfriend;
+    private requestsAdapter adapterequest;
 
     private ArrayList<Usuario> listaAmigos= new ArrayList<Usuario>();
 
@@ -61,8 +65,11 @@ public class Amigos extends Fragment implements friendAdapter.Onclick {
 
             //Instancias de los adapter
             listaAmigos = ((MainActivity)getContext()).usuario.getListaAmigos();
-            adapterfriend = new friendAdapter(listaAmigos,this);
+            adapterfriend = new friendAdapter(listaAmigos, this);
             recyclerAmigos.setAdapter(adapterfriend);
+            adapterequest = new requestsAdapter(((MainActivity)getContext()).usuario.getListaSolicitudes(),this);
+            recyclerSolicitudes.setAdapter(adapterequest);
+
 
             //Seteo de la barra de navegacion
             ((MainActivity) getContext()).navigationView.setCheckedItem(R.id.amigos);
@@ -98,6 +105,33 @@ public class Amigos extends Fragment implements friendAdapter.Onclick {
 
     @Override
     public void onClickfriendAdapter(int pos) {
+        Toast.makeText(getContext(),"Se presiono un amigo",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClickrequestAdapter(final int pos) {
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        Toast.makeText(getContext(),"Solicitud aceptada",Toast.LENGTH_SHORT).show();
+                        recyclerSolicitudes.setAdapter(adapterequest);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        ((MainActivity)getContext()).usuario.getListaSolicitudes().remove(pos);
+                        recyclerSolicitudes.setAdapter(adapterequest);
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("¿desea aceptar la solicitud de "+
+                ((MainActivity)getContext()).usuario.getListaSolicitudes().get(pos).getNombre()+"?")
+                .setPositiveButton("Si", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
 
     }
 
