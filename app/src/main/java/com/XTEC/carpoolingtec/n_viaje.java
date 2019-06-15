@@ -4,44 +4,45 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link n_viaje.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link n_viaje#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class n_viaje extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+import Data.Auto;
+import Data.Usuario;
+import adapters.CarAdapter;
+import adapters.friendAdapter;
+
+public class n_viaje extends Fragment implements CarAdapter.Onclick, friendAdapter.Onclick {
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+
+    private RecyclerView ListAutos, listaAmigosViaje;
+    private Auto car;
+    private ArrayList<Usuario> invitados = new ArrayList<Usuario>();
+    private CarAdapter adaptarCar;
+    private friendAdapter adapterfriend;
+
+    private Button nTravel, Cancel;
+    private ArrayList<Auto> AutosSelec = new ArrayList<Auto>();
+
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     public n_viaje() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment n_viaje.
-     */
-    // TODO: Rename and change types and number of parameters
     public static n_viaje newInstance(String param1, String param2) {
         n_viaje fragment = new n_viaje();
         Bundle args = new Bundle();
@@ -64,10 +65,65 @@ public class n_viaje extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_n_viaje, container, false);
+        try {
+            //Instancia de los elementos
+            ListAutos = (RecyclerView) view.findViewById(R.id.listaAutos);
+            ListAutos.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+            listaAmigosViaje = (RecyclerView) view.findViewById(R.id.recyclerlistaAmigosviaje);
+            listaAmigosViaje.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+            AutosSelec = ((MainActivity) getContext()).usuario.getListaAutos();
+            nTravel = (Button) view.findViewById(R.id.nTravel_btn);
+            Cancel = (Button) view.findViewById(R.id.nTraveCancel_btn);
+
+            //Asignacion de la lista de autos
+            adaptarCar = new CarAdapter(AutosSelec, this);
+            ListAutos.setAdapter(adaptarCar);
+            adapterfriend = new friendAdapter(((MainActivity)getContext()).usuario.getListaAmigos(),this);
+            listaAmigosViaje.setAdapter(adapterfriend);
+
+            //Accion de botones
+            nTravel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    newTravel(v);
+                }
+            });
+            Cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CancekTravel(v);
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    private void newTravel(View v){
+        if( car == null){
+            Toast.makeText(getContext(),"No se ha seleccionado Auto",Toast.LENGTH_SHORT).show();
+        }else if(invitados.isEmpty()){
+            Toast.makeText(getContext(),"No se han seleccionado invitados",Toast.LENGTH_SHORT).show();
+        } else if(invitados.size() > (car.getCant_pers()-1)){
+            Dialogs dialogs = new Dialogs();
+            dialogs.Alert(getContext(),"Muchos invitados","El numero de invitados sobrepasa la cantidad de pasajeros del auto, por favor" +
+                    " seleccione nuevamente a los invitados.");
+            invitados.clear();
+        }else{
+            Toast.makeText(getContext(),"Se selecciono: "+car.getMarca()+" "+car.getModelo()+" Placa: "+car.getPlaca(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void CancekTravel(View view){
+        Toast.makeText(getContext(),"Nuevo viaje cancelado",Toast.LENGTH_SHORT).show();
+        car = null;
+        invitados.clear();
+        ((MainActivity)getContext()).getSupportFragmentManager().popBackStack();
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -91,18 +147,28 @@ public class n_viaje extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onClickcarAdapter(int pos) {
+        car = AutosSelec.get(pos);
+        Dialogs alert = new Dialogs();
+        alert.Alert(getContext(),"Auto seleccionado","Se selecciono el auto #"+(pos+1));
+    }
+
+    @Override
+    public void onClickfriendAdapter(int pos) {
+        Usuario user = ((MainActivity)getContext()).usuario.getListaAmigos().get(pos);
+        Dialogs alert = new Dialogs();
+        if(invitados.contains(user)) {
+            alert.Alert(getContext(), "Ya esta en lista", "Este usuario ya pertenece a la lista de invitados");
+        }else {
+            invitados.add(user);
+            alert.Alert(getContext(), "Amigo Agregado", user.getNombre() + " se ha agregado a las lista de invitados\n" +
+                    "Total de invitados: " + invitados.size());
+        }
+    }
+
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
