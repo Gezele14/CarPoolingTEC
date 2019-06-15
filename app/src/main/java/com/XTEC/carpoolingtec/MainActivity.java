@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 
+import java.util.ArrayList;
+
+import Data.Auto;
 import Data.Usuario;
 
 
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.getHeaderView(0);
 
+        usuarioData();
 
         fragment = new Login();
         getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).disallowAddToBackStack().commit();
@@ -101,6 +105,30 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void usuarioData(){
+        usuario.setNombre("Gerardo Zeledon");
+        usuario.setCorreo("g.zeledon@estudiantec.cr");
+        usuario.setContraseña("Gerardozm1408.");
+        usuario.setCedula(304960671);
+        usuario.setTelefono(71790955);
+
+        //Autos
+        usuario.addAuto(new Auto("Toyota", "Corolla", "BCD145",5));
+        usuario.addAuto(new Auto("Nissan", "Sentra", "FGC758", 5));
+        usuario.addAuto(new Auto("Hyundai", "Accen Blue", "ERT1256", 5));
+        usuario.addAuto(new Auto("Toyota", "Corolla", "CFD356", 5));
+        usuario.addAuto(new Auto("Toyota", "Rav4", "QWE459", 5));
+
+        //Amigos
+        usuario.addAmigo(new Usuario("Roberto Rodriguez",71892657));
+        usuario.addAmigo(new Usuario("Maria Cortez",85783695));
+        usuario.addAmigo(new Usuario("Mario Perez",75142863));
+        usuario.addAmigo(new Usuario("Juan Pereira",92653896));
+        usuario.addAmigo(new Usuario("Emmanuel Martinez",78523642));
+        usuario.addAmigo(new Usuario("Olman Zeledon",86243685));
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
