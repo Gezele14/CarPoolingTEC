@@ -7,6 +7,7 @@ public class Usuario {
 
     public Usuario(){
         this.cant_puntos = 100;
+        this.cant_autos = 1;
     }
 
 

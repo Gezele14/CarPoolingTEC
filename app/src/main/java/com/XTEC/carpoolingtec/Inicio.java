@@ -16,7 +16,7 @@ public class Inicio extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private Button Stat, viaje;
+    private Button Stat, viaje,nviaje;
     private TextView Puntos;
 
     private String mParam1;
@@ -51,15 +51,62 @@ public class Inicio extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
+        //Seteo de la barra de navegacion
+        ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.nav_home);
+
         //Intancias de los elementos graficos
         Stat = (Button) view.findViewById(R.id.estat_btn);
         viaje = (Button) view.findViewById(R.id.viaje_btn);
+        nviaje = (Button) view.findViewById(R.id.nviaje_btn);
         Puntos = (TextView) view.findViewById(R.id.puntos);
+
+        if(((MainActivity)getContext()).usuario.getCant_autos() == 0){
+            nviaje.setEnabled(false);
+            nviaje.setVisibility(View.INVISIBLE);
+        } else{
+            nviaje.setEnabled(true);
+            nviaje.setVisibility(View.VISIBLE);
+        }
 
         //Dar valor a los lables
         Puntos.setText(((MainActivity)getContext()).usuario.getCant_puntos()+ " pts.");
 
+        //Acciones de los Botones
+        Stat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dshaboards(v);
+            }
+        });
+        viaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                invitaciones(v);
+            }
+        });
+        nviaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Nviaje(v);
+            }
+        });
+
         return view;
+    }
+
+    private void dshaboards(View view){
+        Fragment fragment = new Dashboards();
+        ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+    }
+
+    private void invitaciones(View view){
+        Fragment fragment = new Dashboards();
+        ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+    }
+
+    private void Nviaje(View view){
+        Fragment fragment = new n_viaje();
+        ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
     }
 
     public interface OnFragmentInteractionListener {

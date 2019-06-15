@@ -1,37 +1,40 @@
 package com.XTEC.carpoolingtec;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import com.google.zxing.WriterException;
-
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
+import android.widget.EditText;
 
 
-public class Canjeo extends Fragment {
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link Perfil.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link Perfil#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class Perfil extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private  ImageView qrCode;
-    private Button Cancel;
+    private Button save,cancel;
+    private EditText Name, Mail, Cedula, Id, Pass, PassConf, Phone;
 
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public Canjeo() {
+    public Perfil() {
         // Required empty public constructor
     }
 
@@ -41,11 +44,11 @@ public class Canjeo extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Canjeo.
+     * @return A new instance of fragment Perfil.
      */
     // TODO: Rename and change types and number of parameters
-    public static Canjeo newInstance(String param1, String param2) {
-        Canjeo fragment = new Canjeo();
+    public static Perfil newInstance(String param1, String param2) {
+        Perfil fragment = new Perfil();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,19 +67,31 @@ public class Canjeo extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_canjeo, container, false);
+        // Inflate the layout for this fragment
+        View view =inflater.inflate(R.layout.fragment_perfil, container, false);
+
         //Seteo de la barra de navegacion
-        ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.canjear);
+        ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.Profile);
 
         //Instancias de los elementos
-        qrCode = (ImageView) view.findViewById(R.id.qrCode);
-        Cancel = (Button) view.findViewById(R.id.QRcancel_btn);
+        save = (Button) view.findViewById(R.id.save_btn);
+        cancel = (Button) view.findViewById(R.id.cancel_btn);
+        Name = (EditText) view.findViewById(R.id.txtName);
+        Mail =(EditText) view.findViewById(R.id.txtMail);
+        Cedula = (EditText) view.findViewById(R.id.txtCedula);
+        Id = (EditText) view.findViewById(R.id.txtId);
+        Pass =(EditText) view.findViewById(R.id.txtPass);
+        PassConf = (EditText) view.findViewById(R.id.txtPassConf);
+        Phone = (EditText) view.findViewById(R.id.txtPhone);
 
-        //Generar QR
-        generateQR();
+        //Seteo de los inhabilitados
+        Name.setEnabled(false);
+        Mail.setEnabled(false);
+        Cedula.setEnabled(false);
+        Id.setEnabled(false);
 
-        //Accion de los botones
-        Cancel.setOnClickListener(new View.OnClickListener() {
+        //Acciones de los botones
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cancel(v);
@@ -87,18 +102,6 @@ public class Canjeo extends Fragment {
 
     private  void cancel(View v){
         ((MainActivity)getContext()).getSupportFragmentManager().popBackStack();
-    }
-
-    private void generateQR(){
-        int puntos = ((MainActivity)getContext()).usuario.getCant_puntos();
-        String str_puntos = Integer.toString(puntos);
-        QRGEncoder qrgEncoder = new QRGEncoder(str_puntos, null, QRGContents.Type.TEXT, 500);
-        try{
-            Bitmap bitmap = qrgEncoder.encodeAsBitmap();
-            qrCode.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

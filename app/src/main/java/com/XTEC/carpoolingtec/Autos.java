@@ -1,37 +1,37 @@
 package com.XTEC.carpoolingtec;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import com.google.zxing.WriterException;
-
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
+import android.widget.Toast;
 
 
-public class Canjeo extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link Autos.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link Autos#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class Autos extends Fragment {
+        private Button addAuto;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private  ImageView qrCode;
-    private Button Cancel;
-
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public Canjeo() {
+    public Autos() {
         // Required empty public constructor
     }
 
@@ -41,14 +41,12 @@ public class Canjeo extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Canjeo.
+     * @return A new instance of fragment Autos.
      */
     // TODO: Rename and change types and number of parameters
-    public static Canjeo newInstance(String param1, String param2) {
-        Canjeo fragment = new Canjeo();
+    public static Autos newInstance(String param1, String param2) {
+        Autos fragment = new Autos();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,48 +55,50 @@ public class Canjeo extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_canjeo, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_autos, container, false);
+
         //Seteo de la barra de navegacion
-        ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.canjear);
+        ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.autos);
 
-        //Instancias de los elementos
-        qrCode = (ImageView) view.findViewById(R.id.qrCode);
-        Cancel = (Button) view.findViewById(R.id.QRcancel_btn);
 
-        //Generar QR
-        generateQR();
+        //Intancias de los elementos;
+        addAuto = (Button) view.findViewById(R.id.addAuto_btn);
 
-        //Accion de los botones
-        Cancel.setOnClickListener(new View.OnClickListener() {
+        //Mensaje si no hay autos
+        ((MainActivity)getContext()).usuario.setCant_autos(0);
+        if(((MainActivity)getContext()).usuario.getCant_autos() == 0){
+            Dialogs dialogs = new Dialogs();
+            dialogs.Alert(getContext(),"Sin Autos","Esta cuenta no posee Autos");
+        }
+
+
+        //Acciones de los botones
+        addAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancel(v);
+                addCar(v);
             }
         });
+        //return
         return view;
     }
 
-    private  void cancel(View v){
-        ((MainActivity)getContext()).getSupportFragmentManager().popBackStack();
-    }
+    private void addCar(View view){
+        try {
+            Fragment fragment = new addAuto();
+            ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
 
-    private void generateQR(){
-        int puntos = ((MainActivity)getContext()).usuario.getCant_puntos();
-        String str_puntos = Integer.toString(puntos);
-        QRGEncoder qrgEncoder = new QRGEncoder(str_puntos, null, QRGContents.Type.TEXT, 500);
-        try{
-            Bitmap bitmap = qrgEncoder.encodeAsBitmap();
-            qrCode.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
