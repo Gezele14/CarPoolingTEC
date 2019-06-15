@@ -60,14 +60,12 @@ public class Login extends Fragment {
     public void registro(View view) {
         Fragment fragment = new Register();
         ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
-        ((MainActivity)getContext()).drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     //Metodo para iniciar sesion
     public void login(View view) {
         Fragment fragment = new fb();
         ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
-        ((MainActivity)getContext()).drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     public interface OnFragmentInteractionListener {

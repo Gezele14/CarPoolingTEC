@@ -18,11 +18,14 @@ public class Usuario {
         listaAutos = new ArrayList<Auto>();
         listaAutosOriginal = new ArrayList<Auto>();
         listaAmigos = new ArrayList<Usuario>();
+        listaSolicitudes = new ArrayList<Usuario>();
     }
     public Usuario(String nombre, int telefono){
         this.nombre = nombre;
         this.telefono = telefono;
         listaAmigos = new ArrayList<Usuario>();
+        listaSolicitudes = new ArrayList<Usuario>();
+
     }
 
 
@@ -117,6 +120,10 @@ public class Usuario {
         this.listaAmigos.add(friend);
     }
 
+    public void addSolicitud(Usuario user){
+        this.listaSolicitudes.add(user);
+    }
+
     public void resetListaAutos(){
         this.listaAutos = this.listaAutosOriginal;
     }
@@ -135,5 +142,13 @@ public class Usuario {
 
     public void setListaAmigos(ArrayList<Usuario> listaAmigos) {
         this.listaAmigos = listaAmigos;
+    }
+
+    public ArrayList<Usuario> getListaSolicitudes() {
+        return listaSolicitudes;
+    }
+
+    public void setListaSolicitudes(ArrayList<Usuario> listaSolicitudes) {
+        this.listaSolicitudes = listaSolicitudes;
     }
 }
