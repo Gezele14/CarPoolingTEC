@@ -75,7 +75,7 @@ public class Inicio extends Fragment {
         Stat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dshaboards(v);
+                dashboards(v);
             }
         });
         viaje.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +94,7 @@ public class Inicio extends Fragment {
         return view;
     }
 
-    private void dshaboards(View view){
+    private void dashboards(View view){
         Fragment fragment = new Dashboards();
         ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
     }

@@ -8,27 +8,25 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.validateMockitoUsage;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginTest {
+public class RegisterTest {
 
     @Mock
-    private Login login1;
+    private Register register1;
 
     @Before
-    public void setUp(){
-        login1 = new Login();
+    public void setUp() throws Exception {
+        register1 = new Register();
     }
 
     @Test
-    public void loginLaunch(){
-        assertNotNull(login1);
+    public void registerLaunch() {
+        assertNotNull(register1);
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() throws Exception {
     }
 
 
