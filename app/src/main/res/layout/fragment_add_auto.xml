@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:textSize="12sp" />
 
         </LinearLayout>
