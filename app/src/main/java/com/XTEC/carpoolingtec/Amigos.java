@@ -117,12 +117,12 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         Toast.makeText(getContext(),"Solicitud aceptada",Toast.LENGTH_SHORT).show();
-                        recyclerSolicitudes.setAdapter(adapterequest);
+                        adapterequest.notifyDataSetChanged();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
                         ((MainActivity)getContext()).usuario.getListaSolicitudes().remove(pos);
-                        recyclerSolicitudes.setAdapter(adapterequest);
+                        adapterequest.notifyDataSetChanged();
                         break;
                 }
             }
