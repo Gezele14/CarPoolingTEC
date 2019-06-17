@@ -2,14 +2,15 @@ package Data;
 
 public class Auto {
 
-    private String Marca, Modelo, Placa;
-    private int cant_pers;
+    private String Marca, Modelos, Placa;
+    private int Capacidad, IdAuto;
 
-    public Auto (String marca, String modelo, String placa, int cant_pers){
+    public Auto (int IdAuto,String marca, String modelo, String placa, int Capacidad){
         this.Marca = marca;
-        this.Modelo = modelo;
+        this.Modelos = modelo;
         this.Placa = placa;
-        this.cant_pers = cant_pers;
+        this.Capacidad = Capacidad;
+        this.IdAuto = IdAuto;
     }
 
     public String getMarca() {
@@ -20,12 +21,12 @@ public class Auto {
         Marca = marca;
     }
 
-    public String getModelo() {
-        return Modelo;
+    public String getModelos() {
+        return Modelos;
     }
 
-    public void setModelo(String modelo) {
-        Modelo = modelo;
+    public void setModelos(String modelos) {
+        Modelos = modelos;
     }
 
     public String getPlaca() {
@@ -36,11 +37,19 @@ public class Auto {
         Placa = placa;
     }
 
-    public int getCant_pers() {
-        return cant_pers;
+    public int getCapacidad() {
+        return Capacidad;
     }
 
-    public void setCant_pers(int cant_pers) {
-        this.cant_pers = cant_pers;
+    public void setCapacidad(int capacidad) {
+        Capacidad = capacidad;
+    }
+
+    public int getIdAuto() {
+        return IdAuto;
+    }
+
+    public void setIdAuto(int idAuto) {
+        IdAuto = idAuto;
     }
 }

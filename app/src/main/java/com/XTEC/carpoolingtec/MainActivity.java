@@ -28,14 +28,15 @@ import Data.Usuario;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,Register.OnFragmentInteractionListener, fb.OnFragmentInteractionListener, Login.OnFragmentInteractionListener, Inicio.OnFragmentInteractionListener,
         Canjeo.OnFragmentInteractionListener, Autos.OnFragmentInteractionListener, addAuto.OnFragmentInteractionListener, Dashboards.OnFragmentInteractionListener, Inv_viaje.OnFragmentInteractionListener,
-        n_viaje.OnFragmentInteractionListener, Amigos.OnFragmentInteractionListener, Perfil.OnFragmentInteractionListener
+        n_viaje.OnFragmentInteractionListener, Amigos.OnFragmentInteractionListener, Perfil.OnFragmentInteractionListener, ResultSearch.OnFragmentInteractionListener
 
 {
 
     public NavigationView navigationView;
     private Fragment fragment;
+    public Fragment current;
     public  DrawerLayout drawer;
-    private View headerView;
+    public View headerView;
     private String usrName, usrLName, usrid;
 
     public Usuario usuario = new Usuario();
@@ -60,8 +61,6 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.getHeaderView(0);
-
-        usuarioData();
 
         fragment = new Login();
         getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).disallowAddToBackStack().commit();
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+/*
     private void usuarioData(){
         usuario.setNombre("Gerardo Zeledon");
         usuario.setCorreo("g.zeledon@estudiantec.cr");
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         usuario.addSolicitud(new Usuario("Emmanuel Martinez",78523642));
         usuario.addSolicitud(new Usuario("Olman Zeledon",86243685));
 
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -161,6 +160,7 @@ public class MainActivity extends AppCompatActivity
             FragmentSelect = true;
         } else if (id == R.id.autos) {
             fragMenu = new Autos();
+            current = fragMenu;
             FragmentSelect = true;
         }else if (id == R.id.amigos) {
             fragMenu = new Amigos();
@@ -189,8 +189,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {

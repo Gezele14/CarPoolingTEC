@@ -60,7 +60,7 @@ public class friendAdapter extends RecyclerView.Adapter<friendAdapter.ViewHolder
 
         public void asignarData(Usuario s) {
             nombre.setText("Nombre: "+s.getNombre());
-            telefono.setText("Telefono: "+s.getTelefono());
+            telefono.setText("");
         }
 
         @Override

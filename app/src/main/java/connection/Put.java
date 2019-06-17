@@ -17,14 +17,14 @@ import java.util.ArrayList;
  * Clase encargada de hacer post al servidor
  */
 
-public class Post {
+public class Put {
 
-    public String httpPost(String myUrl, JSONObject jsonObject) throws IOException, JSONException {
+    public String httpPut(String myUrl, JSONObject jsonObject) throws IOException, JSONException {
 
         URL url = new URL(myUrl);
         // 1. create HttpURLConnection
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
+        conn.setRequestMethod("PUT");
         conn.setRequestProperty("Content-Type", "application/json");
 
         // 2. build JSON object

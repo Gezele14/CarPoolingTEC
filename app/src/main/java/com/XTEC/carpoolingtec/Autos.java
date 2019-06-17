@@ -2,6 +2,7 @@ package com.XTEC.carpoolingtec;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import Data.Auto;
+import Data.Usuario;
 import adapters.CarAdapter;
+import connection.Get;
+import connection.Post;
 
 
 /**
@@ -24,7 +35,7 @@ import adapters.CarAdapter;
  * create an instance of this fragment.
  */
 public class Autos extends Fragment implements CarAdapter.Onclick{
-        private Button addAuto;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -32,6 +43,12 @@ public class Autos extends Fragment implements CarAdapter.Onclick{
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView lista;
+    private Button addAuto;
+
+    CarAdapter adaptarCar;
+
+    private Get get;
+    private static final String ip = "https://app-carpoolingtec.herokuapp.com";
 
     public Autos() {
         // Required empty public constructor
@@ -69,14 +86,17 @@ public class Autos extends Fragment implements CarAdapter.Onclick{
         //Seteo de la barra de navegacion
         ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.autos);
 
+        get = new Get();
 
-        //Intancias de los elementos;
+        //Intancias de los elementos
         addAuto = (Button) view.findViewById(R.id.addAuto_btn);
         lista = (RecyclerView) view.findViewById(R.id.ListAutos);
 
+
+
         //Llenaod de la Lista
         lista.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        CarAdapter adaptarCar = new CarAdapter(((MainActivity)getContext()).usuario.getListaAutosOriginal(),this);
+        adaptarCar = new CarAdapter(((MainActivity)getContext()).usuario.getListaAutosOriginal(),this);
         lista.setAdapter(adaptarCar);
 
         //Mensaje si no hay autos
@@ -151,4 +171,5 @@ public class Autos extends Fragment implements CarAdapter.Onclick{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

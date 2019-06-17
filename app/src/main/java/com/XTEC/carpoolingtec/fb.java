@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +42,8 @@ public class fb extends Fragment {
     private LoginButton login_button;
     private CallbackManager callbackManager;
 
+    private TextView nombre, correo;
+
     public fb() {
         // Required empty public constructor
     }
@@ -52,6 +56,9 @@ public class fb extends Fragment {
         // Inflate the layout for this fragment`
 
         login_button = (LoginButton) view.findViewById(R.id.LoginFB);
+
+        nombre = (TextView) ((MainActivity)getContext()).headerView.findViewById(R.id.txtNameheader);
+        correo = (TextView) ((MainActivity)getContext()).headerView.findViewById(R.id.txtEmail);
 
         //Iniciacion del boton de login
         callbackManager = CallbackManager.Factory.create();
@@ -106,7 +113,10 @@ public class fb extends Fragment {
                     Fragment fragment = new Inicio();
                     ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
 
+                    nombre.setText(((MainActivity)getContext()).usuario.getNombre());
+                    correo.setText(((MainActivity)getContext()).usuario.getCorreo());
                     ((MainActivity)getContext()).drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
 
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
