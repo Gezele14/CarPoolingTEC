@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import Data.Usuario;
 import connection.Post;
@@ -30,9 +31,9 @@ import connection.Post;
  */
 public class Register extends Fragment {
     private Button btnSave;
-    private EditText nombre, apellidos, correo, cedula, carne, contraseña, contraseñaConf, telefono;
+    private EditText nombre, apellidos, correo, cedula, carne, contraseña, contraseñaConf;
     private Post post;
-    private static final String ip = "https://carpooling-xtec.herokuapp.com";
+    private static final String ip = "https://app-carpoolingtec.herokuapp.com";
 
 
     public Register() {
@@ -61,7 +62,6 @@ public class Register extends Fragment {
         carne = (EditText) view.findViewById(R.id.txtId);
         contraseña = (EditText) view.findViewById(R.id.txtPass);
         contraseñaConf = (EditText) view.findViewById(R.id.txtPassConf);
-        telefono = (EditText) view.findViewById(R.id.txtPhone);
         post = new Post();
 
         //Accion de los botones
@@ -84,11 +84,14 @@ public class Register extends Fragment {
         }else if (!contraseña.getText().toString().equals(contraseñaConf.getText().toString())){
             Toast.makeText(getContext(), "Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
         }else {
-            Fragment fragment = new fb();
-            ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+            try {
+                new HTTPAsyncTask().execute("https://app-carpoolingtec.herokuapp.com/api/registrar");
+            }catch (Exception e){
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
         }
 
-        //new HTTPAsyncTask().execute(ip+"/api/registrar");
+
     }
 
     public interface OnFragmentInteractionListener {
@@ -110,8 +113,6 @@ public class Register extends Fragment {
             return false;
         }else if(contraseñaConf.getText().toString().isEmpty()){
             return false;
-        }else if(telefono.getText().toString().isEmpty()){
-            return false;
         }else{
             return  true;
         }
@@ -126,7 +127,7 @@ public class Register extends Fragment {
             jsonObject.put("NOMBRE", nombre.getText().toString());
             jsonObject.put("APELLIDO", apellidos.getText().toString());
             jsonObject.put("CORREO", correo.getText().toString());
-            jsonObject.put("CONTRASEÑA", contraseña.getText().toString());
+            jsonObject.put("CONTRASENA", contraseña.getText().toString());
         } catch (JSONException e) {
             e.getMessage();
         }
@@ -135,15 +136,53 @@ public class Register extends Fragment {
     }
 
 
-    private class HTTPAsyncTask extends AsyncTask<String, Void, Usuario> {
+    private class HTTPAsyncTask extends AsyncTask<String,Void,String>{
         @Override
-        protected Usuario doInBackground(String... params) {
-            return null;
+        protected String doInBackground(String... params) {
+            try {
+                String json = post.httpPost(params[0], buildJSONObject());
+
+                return json;
+
+            } catch (JSONException e) {
+                return null;
+            } catch (IOException e) {
+                ArrayList<String> error = new ArrayList<String>();
+                error.add(e.getLocalizedMessage());
+                return null;
+            }
+
         }
 
         @Override
-        protected void onPostExecute(Usuario result) {
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            try {
+                JSONObject objFromServer = new JSONObject(result);
+                Toast.makeText(getContext(), result,Toast.LENGTH_SHORT).show();
+
+                if(result == null){
+                    Toast.makeText(getContext(), "Error de conexion",Toast.LENGTH_SHORT).show();
+                }else if(objFromServer.has("status")){
+                    if(objFromServer.getInt("status") == 404){
+                        Toast.makeText(getContext(), "El carnet ingresado no pertenece a la institución",Toast.LENGTH_SHORT).show();
+                    }else if(objFromServer.getInt("status") == 400){
+                        Toast.makeText(getContext(), "El carnet o la cedula ya estan asociad0s a una cuenta",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getContext(), "Error del Servidor",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    String data = objFromServer.getString("NOMBRE") + objFromServer.getString("APELLIDO");
+                    Toast.makeText(getContext(), data,Toast.LENGTH_SHORT).show();
+
+                     Fragment fragment = new fb();
+                    ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
 
         }
     }

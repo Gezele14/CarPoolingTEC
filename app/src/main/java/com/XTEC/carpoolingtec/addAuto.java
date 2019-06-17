@@ -2,6 +2,7 @@ package com.XTEC.carpoolingtec;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import Data.Auto;
+import connection.Post;
 
 
 public class addAuto extends Fragment {
@@ -24,6 +34,7 @@ public class addAuto extends Fragment {
 
     private EditText Placa,marca, modelo, cantPers;
     private Button addAuto;
+    private Post post;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,6 +72,8 @@ public class addAuto extends Fragment {
         Placa = (EditText) view.findViewById(R.id.txtPlaca);
         cantPers = (EditText) view.findViewById(R.id.txtcantPers);
 
+        post = new Post();
+
         addAuto = (Button) view.findViewById(R.id.save_btn);
 
         //Accion de los botones
@@ -79,7 +92,8 @@ public class addAuto extends Fragment {
         if(!vacio){
             Toast.makeText(getContext(), "Por favor llene todos los espacios",Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(getContext(), "Todo ok",Toast.LENGTH_SHORT).show();
+            new HTTPAsyncTask().execute("https://app-carpoolingtec.herokuapp.com/api/r_auto/"+
+                    Integer.toString(((MainActivity)getContext()).usuario.getId()));
         }
     }
 
@@ -124,5 +138,78 @@ public class addAuto extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private JSONObject buildJSONObject() {
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("PLACA", Placa.getText().toString());
+            jsonObject.put("MARCA", marca.getText().toString());
+            jsonObject.put("MODELO", modelo.getText().toString());
+            jsonObject.put("CAPACIDAD", Integer.parseInt(cantPers.getText().toString()));
+        } catch (JSONException e) {
+            e.getMessage();
+        }
+
+        return jsonObject;
+    }
+
+    private class HTTPAsyncTask extends AsyncTask<String,Void,String> {
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String json = post.httpPost(params[0], buildJSONObject());
+
+                return json;
+
+            } catch (JSONException e) {
+                return null;
+            } catch (IOException e) {
+                ArrayList<String> error = new ArrayList<String>();
+                error.add(e.getLocalizedMessage());
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                JSONObject objFromServer = new JSONObject(result);
+
+                if(result == null){
+                    Toast.makeText(getContext(), "Error de conexion",Toast.LENGTH_SHORT).show();
+                }else if(objFromServer.has("status")){
+                    if(objFromServer.getInt("status") == 404){
+                        Toast.makeText(getContext(), "El carnet ingresado no pertenece a la institución",Toast.LENGTH_SHORT).show();
+                    }else if(objFromServer.getInt("status") == 400){
+                        Toast.makeText(getContext(), "El carnet o la cedula ya estan asociad0s a una cuenta",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getContext(), "Error del Servidor",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Auto temp = new Auto(
+                            objFromServer.getInt("IdAuto"),
+                            objFromServer.getString("MARCA"),
+                            objFromServer.getString("MODELO"),
+                            objFromServer.getString("PLACA"),
+                            objFromServer.getInt("CAPACIDAD"));
+                    ((MainActivity)getContext()).usuario.addAuto(temp);
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.Alert(getContext(),"","Auto agregado correctamente");
+                    ((MainActivity)getContext()).getSupportFragmentManager().popBackStack();
+                    ((MainActivity)getContext()).getSupportFragmentManager().popBackStack();
+                    Fragment fragment = new Autos();
+                    ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
+
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
     }
 }

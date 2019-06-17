@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Clase encargada de hacer post al servidor
@@ -21,7 +22,6 @@ public class Post {
     public String httpPost(String myUrl, JSONObject jsonObject) throws IOException, JSONException {
 
         URL url = new URL(myUrl);
-
         // 1. create HttpURLConnection
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
@@ -38,6 +38,7 @@ public class Post {
 
         String json_response = "";
         InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
         BufferedReader br = new BufferedReader(in);
         String text = "";
         while ((text = br.readLine()) != null) {
@@ -46,6 +47,7 @@ public class Post {
 
         // 5. return response message
         //return conn.getResponseMessage() + "";
+
         return json_response;
 
     }

@@ -10,47 +10,45 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import Data.Auto;
-import Data.Usuario;
-import adapters.CarAdapter;
+import Data.solicitud;
+import adapters.friendAdapter;
 import connection.Get;
-import connection.Post;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Autos.OnFragmentInteractionListener} interface
+ * {@link ResultSearch.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Autos#newInstance} factory method to
+ * Use the {@link ResultSearch#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Autos extends Fragment implements CarAdapter.Onclick{
-
+public class ResultSearch extends Fragment implements friendAdapter.Onclick {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
-    private RecyclerView lista;
-    private Button addAuto;
 
-    CarAdapter adaptarCar;
-
+    private RecyclerView search;
+    private friendAdapter adapter;
     private Get get;
-    private static final String ip = "https://app-carpoolingtec.herokuapp.com";
 
-    public Autos() {
+
+    private OnFragmentInteractionListener mListener;
+
+    public ResultSearch() {
         // Required empty public constructor
     }
 
@@ -60,12 +58,14 @@ public class Autos extends Fragment implements CarAdapter.Onclick{
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Autos.
+     * @return A new instance of fragment ResultSearch.
      */
     // TODO: Rename and change types and number of parameters
-    public static Autos newInstance(String param1, String param2) {
-        Autos fragment = new Autos();
+    public static ResultSearch newInstance(String param1, String param2) {
+        ResultSearch fragment = new ResultSearch();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,58 +74,22 @@ public class Autos extends Fragment implements CarAdapter.Onclick{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_autos, container, false);
-
-        //Seteo de la barra de navegacion
-        ((MainActivity)getContext()).navigationView.setCheckedItem(R.id.autos);
-
-        get = new Get();
-
-        //Intancias de los elementos
-        addAuto = (Button) view.findViewById(R.id.addAuto_btn);
-        lista = (RecyclerView) view.findViewById(R.id.ListAutos);
+        View view = inflater.inflate(R.layout.fragment_result_search, container, false);
 
 
+        search = (RecyclerView) view.findViewById(R.id.SearchRecycler);
+        search.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        adapter = new friendAdapter(((MainActivity)getContext()).usuario.getListaBusqueda(),this);
 
-        //Llenaod de la Lista
-        lista.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        adaptarCar = new CarAdapter(((MainActivity)getContext()).usuario.getListaAutosOriginal(),this);
-        lista.setAdapter(adaptarCar);
-
-        //Mensaje si no hay autos
-        if(((MainActivity)getContext()).usuario.getCant_autos() == 0){
-            Dialogs dialogs = new Dialogs();
-            dialogs.Alert(getContext(),"Sin Autos","Esta cuenta no posee Autos");
-        }
-
-
-        //Acciones de los botones
-        addAuto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addCar(v);
-            }
-        });
-        //return
         return view;
-    }
-
-    private void addCar(View view){
-        try {
-            Fragment fragment = new addAuto();
-            ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment).addToBackStack(null).commit();
-
-        }catch (Exception e){
-            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -153,7 +117,7 @@ public class Autos extends Fragment implements CarAdapter.Onclick{
     }
 
     @Override
-    public void onClickcarAdapter(int pos) {
+    public void onClickfriendAdapter(int pos) {
 
     }
 
@@ -171,5 +135,6 @@ public class Autos extends Fragment implements CarAdapter.Onclick{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 
 }

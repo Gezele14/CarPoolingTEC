@@ -107,13 +107,13 @@ public class n_viaje extends Fragment implements CarAdapter.Onclick, friendAdapt
             Toast.makeText(getContext(),"No se ha seleccionado Auto",Toast.LENGTH_SHORT).show();
         }else if(invitados.isEmpty()){
             Toast.makeText(getContext(),"No se han seleccionado invitados",Toast.LENGTH_SHORT).show();
-        } else if(invitados.size() > (car.getCant_pers()-1)){
+        } else if(invitados.size() > (car.getCapacidad()-1)){
             Dialogs dialogs = new Dialogs();
             dialogs.Alert(getContext(),"Muchos invitados","El numero de invitados sobrepasa la cantidad de pasajeros del auto, por favor" +
                     " seleccione nuevamente a los invitados.");
             invitados.clear();
         }else{
-            Toast.makeText(getContext(),"Se selecciono: "+car.getMarca()+" "+car.getModelo()+" Placa: "+car.getPlaca(),Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"Se selecciono: "+car.getMarca()+" "+car.getModelos()+" Placa: "+car.getPlaca(),Toast.LENGTH_LONG).show();
         }
     }
 

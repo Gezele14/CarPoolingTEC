@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +12,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import Data.Usuario;
+import Data.solicitud;
 import adapters.friendAdapter;
 import adapters.requestsAdapter;
+import connection.Get;
 
 
 public class Amigos extends Fragment implements friendAdapter.Onclick, requestsAdapter.Onclick  {
@@ -25,8 +33,11 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView recyclerSolicitudes,recyclerAmigos;
+    private Button buscar;
+    private EditText txtbusuqeda;
     private friendAdapter adapterfriend;
     private requestsAdapter adapterequest;
+    private Get get;
 
     private ArrayList<Usuario> listaAmigos= new ArrayList<Usuario>();
 
@@ -63,6 +74,11 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
             recyclerAmigos.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
 
+            get = new Get();
+
+            buscar = (Button) view.findViewById(R.id.friendSearch_btn);
+            txtbusuqeda = (EditText) view.findViewById(R.id.searchUserET);
+
             //Instancias de los adapter
             listaAmigos = ((MainActivity)getContext()).usuario.getListaAmigos();
             adapterfriend = new friendAdapter(listaAmigos, this);
@@ -76,7 +92,24 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
         }catch (Exception e){
             Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
         }
+
+        buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return view;
+    }
+
+
+    private void busqueda (){
+        if(txtbusuqeda.getText().toString().isEmpty()){
+            Toast.makeText(getContext(),"Debe ingresar una palabra clave",Toast.LENGTH_SHORT);
+        }else{
+            new getsearchServer().execute("https://app-carpoolingtec.herokuapp.com/api/list_pasajeros/"+
+                    txtbusuqeda.getText().toString());
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -138,5 +171,50 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private class getsearchServer extends AsyncTask<String,Void,String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String json = get.httpGet(params[0]);
+
+            return json;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                JSONObject objFromServer = new JSONObject(result);
+
+                if(result == null){
+                    Toast.makeText(getContext(), "Error de conexion",Toast.LENGTH_SHORT).show();
+                }else if(objFromServer.has("status")){
+                    if(objFromServer.getInt("status") == 404){
+                        Toast.makeText(getContext(), "El carnet ingresado no pertenece a la institución",Toast.LENGTH_SHORT).show();
+                    }else if(objFromServer.getInt("status") == 400){
+                        Toast.makeText(getContext(), "El carnet o la cedula ya estan asociados a una cuenta",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getContext(), "Error del Servidor",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    int cantAutos = objFromServer.getJSONArray("pasajeros").length();
+                    ArrayList<Usuario> listabusuqeda = new ArrayList<>();
+                    for(int i=0; i<=cantAutos-1; i++){
+                        JSONObject temp = objFromServer.getJSONArray("pasajeros").getJSONObject(i);
+                        listabusuqeda.add(new Usuario(
+                                temp.getInt("IdAmigo"),
+                                temp.getString("Nombre")+" "+ temp.getString("Apellido")
+                                ));
+                    }
+                    ((MainActivity)getContext()).usuario.setListaBusqueda(listabusuqeda);
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
     }
 }

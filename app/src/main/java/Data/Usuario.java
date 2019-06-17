@@ -5,27 +5,30 @@ import java.util.ArrayList;
 public class Usuario {
 
     private String nombre, correo, contraseña;
-    private int cedula, carnet, cant_autos, telefono, cant_puntos, cant_viajes;
+    private int id,idamigo,cedula, carnet, cant_autos, telefono, cant_puntos, cant_viajes;
     private ArrayList<Auto> listaAutos,listaAutosOriginal;
-    private ArrayList<Usuario> listaAmigos, listaSolicitudes;
+    private ArrayList<Usuario> listaAmigos, listaBusqueda;
+    private ArrayList<solicitud> listaSolicitudes;
+
 
     public Usuario(){
         this.cant_puntos = 100;
-        this.cant_autos = 1;
+        this.cant_autos = 0;
         this.nombre = "";
         this.correo = "";
         this.telefono = 0;
         listaAutos = new ArrayList<Auto>();
         listaAutosOriginal = new ArrayList<Auto>();
         listaAmigos = new ArrayList<Usuario>();
-        listaSolicitudes = new ArrayList<Usuario>();
+        listaBusqueda = new ArrayList<>();
+        listaSolicitudes = new ArrayList<solicitud>();
     }
-    public Usuario(String nombre, int telefono){
+    public Usuario(int id, String nombre){
+        this.id = id;
         this.nombre = nombre;
-        this.telefono = telefono;
         listaAmigos = new ArrayList<Usuario>();
-        listaSolicitudes = new ArrayList<Usuario>();
-
+        listaBusqueda = new ArrayList<>();
+        listaSolicitudes = new ArrayList<solicitud>();
     }
 
 
@@ -108,6 +111,7 @@ public class Usuario {
 
     public void setListaAutos(ArrayList<Auto> listaAutos) {
         this.listaAutos = listaAutos;
+        this.cant_autos = listaAutos.size();
     }
 
     public void addAuto(Auto car){
@@ -120,7 +124,7 @@ public class Usuario {
         this.listaAmigos.add(friend);
     }
 
-    public void addSolicitud(Usuario user){
+    public void addSolicitud(solicitud user){
         this.listaSolicitudes.add(user);
     }
 
@@ -134,6 +138,7 @@ public class Usuario {
 
     public void setListaAutosOriginal(ArrayList<Auto> listaAutosOriginal) {
         this.listaAutosOriginal = listaAutosOriginal;
+        this.cant_autos = listaAutosOriginal.size();
     }
 
     public ArrayList<Usuario> getListaAmigos() {
@@ -144,11 +149,35 @@ public class Usuario {
         this.listaAmigos = listaAmigos;
     }
 
-    public ArrayList<Usuario> getListaSolicitudes() {
+    public ArrayList<solicitud> getListaSolicitudes() {
         return listaSolicitudes;
     }
 
-    public void setListaSolicitudes(ArrayList<Usuario> listaSolicitudes) {
+    public void setListaSolicitudes(ArrayList<solicitud> listaSolicitudes) {
         this.listaSolicitudes = listaSolicitudes;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIdamigo() {
+        return idamigo;
+    }
+
+    public void setIdamigo(int idamigo) {
+        this.idamigo = idamigo;
+    }
+
+    public ArrayList<Usuario> getListaBusqueda() {
+        return listaBusqueda;
+    }
+
+    public void setListaBusqueda(ArrayList<Usuario> listaBusqueda) {
+        this.listaBusqueda = listaBusqueda;
     }
 }

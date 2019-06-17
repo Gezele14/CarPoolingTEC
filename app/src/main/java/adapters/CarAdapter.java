@@ -59,7 +59,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolderData> 
 
         public void asignarData(Auto s) {
             Marca.setText("Marca: "+s.getMarca());
-            Modelo.setText("Modelo: "+s.getModelo());
+            Modelo.setText("Modelo: "+s.getModelos());
             Placa.setText("Placa: "+s.getPlaca());
         }
 

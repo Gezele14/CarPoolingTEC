@@ -158,22 +158,6 @@
                 android:inputType="textPassword"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/label7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="Número de Teléfono"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/txtPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:textSize="12sp" />
 
         </LinearLayout>
     </ScrollView>

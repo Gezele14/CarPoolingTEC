@@ -21,6 +21,7 @@ public class Get {
         try {
             URL url = new URL(myUrl);
             connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
             connection.connect();
 
             InputStream stream = connection.getInputStream();

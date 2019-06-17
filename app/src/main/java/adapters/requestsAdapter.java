@@ -12,18 +12,19 @@ import com.XTEC.carpoolingtec.R;
 import java.util.ArrayList;
 
 import Data.Usuario;
+import Data.solicitud;
 
 public class requestsAdapter extends RecyclerView.Adapter<requestsAdapter.ViewHolderData> {
 
-    private ArrayList<Usuario> friendData;
+    private ArrayList<solicitud> friendData;
     private requestsAdapter.Onclick mOnClick;
 
-    public requestsAdapter(ArrayList<Usuario> friendData, requestsAdapter.Onclick mOnClick) {
+    public requestsAdapter(ArrayList<solicitud> friendData, requestsAdapter.Onclick mOnClick) {
         this.friendData = friendData;
         this.mOnClick = mOnClick;
     }
 
-    public requestsAdapter(ArrayList<Usuario> friendData) {
+    public requestsAdapter(ArrayList<solicitud> friendData) {
         this.friendData = friendData;
         this.mOnClick = mOnClick;
     }
@@ -58,9 +59,9 @@ public class requestsAdapter extends RecyclerView.Adapter<requestsAdapter.ViewHo
             itemView.setOnClickListener(this);
         }
 
-        public void asignarData(Usuario s) {
+        public void asignarData(solicitud s) {
             nombre.setText("Nombre: "+s.getNombre());
-            telefono.setText("Telefono: "+s.getTelefono());
+            telefono.setText("");
         }
 
         @Override
