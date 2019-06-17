@@ -17,7 +17,7 @@ public class AutoTest {
 
     @Before
     public void setUp() throws Exception {
-        auto1 = new Auto("BMW", "M5", "JDE-242", 5);
+        auto1 = new Auto(1, "BMW", "M5", "JDR-125",5);
     }
 
 
@@ -32,15 +32,15 @@ public class AutoTest {
     }
     @Test
     public void Modelo() {
-        assertEquals(auto1.getModelo(),"M5");
+        assertEquals(auto1.getModelos(),"M5");
     }
     @Test
     public void placa() {
-        assertEquals(auto1.getPlaca(),"JDE-242");
+        assertNotEquals(auto1.getPlaca(),"JDE-242");
     }
     @Test
     public void cantPersonas() {
-        assertNotEquals(auto1.getCant_pers(),6);
+        assertNotEquals(auto1.getCapacidad(),6);
     }
 
 

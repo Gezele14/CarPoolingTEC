@@ -19,7 +19,7 @@ public class UsuarioTest {
 
     @Before
     public void setUp() throws Exception {
-        usuario1 = new Usuario("Juan D Esquivel",86074248);
+        usuario1 = new Usuario(2,"Juan D Esquivel");
         usuario2 = new Usuario();
         usuario2.setNombre("Nano Ramirez");
         usuario2.setCorreo("nano1@gmail.com");
@@ -28,10 +28,9 @@ public class UsuarioTest {
         usuario2.setCant_autos(2);
         usuario2.setCant_puntos(150);
         usuario2.setCant_viajes(12);
-        usuario2.addAmigo(new Usuario("Meca Zeledon", 8563829));
-        usuario2.addAuto(new Auto("Toyota","Hilux","MZD-233",5));
-        usuario2.addAuto(new Auto("Nissan","Sentra","MSW-127",4));
-        usuario2.addSolicitud(new Usuario("Christofer Fernandez", 87642412));
+        usuario2.addAmigo(new Usuario(3,"Meca Zeledon"));
+        usuario2.addAuto(new Auto(2,"Toyota","Hilux","MZD-233",5));
+        usuario2.addAuto(new Auto(4,"Nissan","Sentra","MSW-127",4));
     }
 
 
@@ -44,8 +43,8 @@ public class UsuarioTest {
         assertEquals(usuario1.getNombre(),"Juan D Esquivel");
     }
     @Test
-    public void usuarioTelefono(){
-        assertNotEquals(usuario1.getTelefono(),88568888);
+    public void usuarioId(){
+        assertNotEquals(usuario1.getId(),8);
     }
     @Test
     public void usuarioCorreo(){
@@ -61,7 +60,7 @@ public class UsuarioTest {
     }
     @Test
     public void usuarioListas(){
-        assertEquals(usuario2.getListaSolicitudes().size(),usuario2.getListaAmigos().size());
+        assertNotEquals(usuario2.getListaSolicitudes().size(),usuario2.getListaAmigos().size());
         assertEquals(usuario2.getListaAutosOriginal(),usuario2.getListaAutos());
         assertNotEquals(usuario2.getListaAutos().size(),3);
     }
