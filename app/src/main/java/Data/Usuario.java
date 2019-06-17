@@ -32,6 +32,17 @@ public class Usuario {
     }
 
 
+    public Usuario(String nombre, String correo, int id) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.id = id;
+        listaAutos = new ArrayList<Auto>();
+        listaAutosOriginal = new ArrayList<Auto>();
+        listaAmigos = new ArrayList<Usuario>();
+        listaBusqueda = new ArrayList<>();
+        listaSolicitudes = new ArrayList<solicitud>();
+    }
+
     //Getters and setters
     public String getNombre() {
         return nombre;

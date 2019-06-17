@@ -96,7 +96,7 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                busqueda();
             }
         });
         return view;
@@ -200,15 +200,18 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
                     }
                 }else{
                     int cantAutos = objFromServer.getJSONArray("pasajeros").length();
-                    ArrayList<Usuario> listabusuqeda = new ArrayList<>();
+                    ArrayList<Usuario> listabusqueda = new ArrayList<>();
                     for(int i=0; i<=cantAutos-1; i++){
                         JSONObject temp = objFromServer.getJSONArray("pasajeros").getJSONObject(i);
-                        listabusuqeda.add(new Usuario(
-                                temp.getInt("IdAmigo"),
-                                temp.getString("Nombre")+" "+ temp.getString("Apellido")
+                        listabusqueda.add(new Usuario(
+                                temp.getString("NOMBRE")+" "+ temp.getString("APELLIDO"),
+                                temp.getString("CORREO"),
+                                temp.getInt("IdPasajero")
                                 ));
                     }
-                    ((MainActivity)getContext()).usuario.setListaBusqueda(listabusuqeda);
+                    ((MainActivity)getContext()).usuario.setListaBusqueda(listabusqueda);
+                    Fragment fragment = new ResultSearch();
+                    ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
                 }
             } catch (JSONException e) {
                 Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
