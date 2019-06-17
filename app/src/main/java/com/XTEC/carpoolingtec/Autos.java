@@ -1,17 +1,18 @@
 package com.XTEC.carpoolingtec;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import adapters.CarAdapter;
 
 
 /**
@@ -22,7 +23,7 @@ import android.widget.Toast;
  * Use the {@link Autos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Autos extends Fragment {
+public class Autos extends Fragment implements CarAdapter.Onclick{
         private Button addAuto;
 
     // TODO: Rename and change types of parameters
@@ -30,6 +31,7 @@ public class Autos extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private RecyclerView lista;
 
     public Autos() {
         // Required empty public constructor
@@ -70,9 +72,14 @@ public class Autos extends Fragment {
 
         //Intancias de los elementos;
         addAuto = (Button) view.findViewById(R.id.addAuto_btn);
+        lista = (RecyclerView) view.findViewById(R.id.ListAutos);
+
+        //Llenaod de la Lista
+        lista.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        CarAdapter adaptarCar = new CarAdapter(((MainActivity)getContext()).usuario.getListaAutosOriginal(),this);
+        lista.setAdapter(adaptarCar);
 
         //Mensaje si no hay autos
-        ((MainActivity)getContext()).usuario.setCant_autos(0);
         if(((MainActivity)getContext()).usuario.getCant_autos() == 0){
             Dialogs dialogs = new Dialogs();
             dialogs.Alert(getContext(),"Sin Autos","Esta cuenta no posee Autos");
@@ -123,6 +130,11 @@ public class Autos extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClickcarAdapter(int pos) {
+
     }
 
     /**

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 
 public class Dialogs {
 
+
     public  Dialogs(){
 
     }
@@ -24,4 +25,6 @@ public class Dialogs {
         AlertDialog Alert = builder.create();
         Alert.show();
     }
+
+
 }

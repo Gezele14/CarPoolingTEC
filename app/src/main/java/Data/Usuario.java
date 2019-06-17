@@ -1,13 +1,31 @@
 package Data;
 
+import java.util.ArrayList;
+
 public class Usuario {
 
     private String nombre, correo, contraseña;
     private int cedula, carnet, cant_autos, telefono, cant_puntos, cant_viajes;
+    private ArrayList<Auto> listaAutos,listaAutosOriginal;
+    private ArrayList<Usuario> listaAmigos, listaSolicitudes;
 
     public Usuario(){
         this.cant_puntos = 100;
         this.cant_autos = 1;
+        this.nombre = "";
+        this.correo = "";
+        this.telefono = 0;
+        listaAutos = new ArrayList<Auto>();
+        listaAutosOriginal = new ArrayList<Auto>();
+        listaAmigos = new ArrayList<Usuario>();
+        listaSolicitudes = new ArrayList<Usuario>();
+    }
+    public Usuario(String nombre, int telefono){
+        this.nombre = nombre;
+        this.telefono = telefono;
+        listaAmigos = new ArrayList<Usuario>();
+        listaSolicitudes = new ArrayList<Usuario>();
+
     }
 
 
@@ -82,5 +100,55 @@ public class Usuario {
 
     public void setCant_viajes(int cant_viajes) {
         this.cant_viajes = cant_viajes;
+    }
+
+    public ArrayList<Auto> getListaAutos() {
+        return listaAutos;
+    }
+
+    public void setListaAutos(ArrayList<Auto> listaAutos) {
+        this.listaAutos = listaAutos;
+    }
+
+    public void addAuto(Auto car){
+        this.listaAutos.add(car);
+        this.listaAutosOriginal.add(car);
+        this.cant_autos = this.listaAutos.size();
+    }
+
+    public void addAmigo(Usuario friend){
+        this.listaAmigos.add(friend);
+    }
+
+    public void addSolicitud(Usuario user){
+        this.listaSolicitudes.add(user);
+    }
+
+    public void resetListaAutos(){
+        this.listaAutos = this.listaAutosOriginal;
+    }
+
+    public ArrayList<Auto> getListaAutosOriginal() {
+        return listaAutosOriginal;
+    }
+
+    public void setListaAutosOriginal(ArrayList<Auto> listaAutosOriginal) {
+        this.listaAutosOriginal = listaAutosOriginal;
+    }
+
+    public ArrayList<Usuario> getListaAmigos() {
+        return this.listaAmigos;
+    }
+
+    public void setListaAmigos(ArrayList<Usuario> listaAmigos) {
+        this.listaAmigos = listaAmigos;
+    }
+
+    public ArrayList<Usuario> getListaSolicitudes() {
+        return listaSolicitudes;
+    }
+
+    public void setListaSolicitudes(ArrayList<Usuario> listaSolicitudes) {
+        this.listaSolicitudes = listaSolicitudes;
     }
 }
