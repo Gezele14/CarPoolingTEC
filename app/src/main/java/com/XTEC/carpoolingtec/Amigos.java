@@ -19,6 +19,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Data.Usuario;
@@ -26,6 +27,7 @@ import Data.solicitud;
 import adapters.friendAdapter;
 import adapters.requestsAdapter;
 import connection.Get;
+import connection.Put;
 
 
 public class Amigos extends Fragment implements friendAdapter.Onclick, requestsAdapter.Onclick  {
@@ -38,6 +40,8 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
     private friendAdapter adapterfriend;
     private requestsAdapter adapterequest;
     private Get get;
+    private Put put;
+    private JSONObject jsonObject = new JSONObject();
 
     private ArrayList<Usuario> listaAmigos= new ArrayList<Usuario>();
 
@@ -149,19 +153,27 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        Toast.makeText(getContext(),"Solicitud aceptada",Toast.LENGTH_SHORT).show();
-                        adapterequest.notifyDataSetChanged();
+                            //jsonObject.put("IdAmigo", ((MainActivity)getContext()).usuario.getListaBusqueda().get(pos).getId());
+                            //jsonObject.put("opcion", 1);
+                            //new HTTPAsyncTask().execute("https://app-carpoolingtec.herokuapp.com/api/aoes");
+                            ((MainActivity)getContext()).usuario.getListaSolicitudes().remove(pos);
+                            adapterequest.notifyDataSetChanged();
+
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
-                        ((MainActivity)getContext()).usuario.getListaSolicitudes().remove(pos);
-                        adapterequest.notifyDataSetChanged();
+                            //jsonObject.put("IdAmigo", ((MainActivity)getContext()).usuario.getListaBusqueda().get(pos).getId());
+                            //jsonObject.put("opcion", 0);
+                            //new HTTPAsyncTask().execute("https://app-carpoolingtec.herokuapp.com/api/aoes");
+                            ((MainActivity)getContext()).usuario.getListaSolicitudes().remove(pos);
+                            adapterequest.notifyDataSetChanged();
+
                         break;
                 }
             }
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("¿desea aceptar la solicitud de "+
+        builder.setMessage("¿Desea aceptar la solicitud de "+
                 ((MainActivity)getContext()).usuario.getListaSolicitudes().get(pos).getNombre()+"?")
                 .setPositiveButton("Si", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
@@ -212,6 +224,54 @@ public class Amigos extends Fragment implements friendAdapter.Onclick, requestsA
                     ((MainActivity)getContext()).usuario.setListaBusqueda(listabusqueda);
                     Fragment fragment = new ResultSearch();
                     ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    }
+
+    private class HTTPAsyncTask extends AsyncTask<String,Void,String> {
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String json = put.httpPut(params[0], jsonObject);
+
+                return json;
+
+            } catch (JSONException e) {
+                return null;
+            } catch (IOException e) {
+                ArrayList<String> error = new ArrayList<String>();
+                error.add(e.getLocalizedMessage());
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                JSONObject objFromServer = new JSONObject(result);
+                Toast.makeText(getContext(), jsonObject.toString(),Toast.LENGTH_SHORT).show();
+                if(result == null){
+                    Toast.makeText(getContext(), "Error de conexion",Toast.LENGTH_SHORT).show();
+                }else if(objFromServer.has("status")){
+                    if(objFromServer.getInt("status") == 404){
+                        Toast.makeText(getContext(), "El carnet ingresado no pertenece a la institución",Toast.LENGTH_SHORT).show();
+                    }else if(objFromServer.getInt("status") == 400){
+                        Toast.makeText(getContext(), "El carnet o la cedula ya estan asociad0s a una cuenta",Toast.LENGTH_SHORT).show();
+                    }else if(objFromServer.getInt("status") == 200){
+                        Dialogs dialogs = new Dialogs();
+                        dialogs.Alert(getContext(),"","Se envio la solicitud con exito");
+                    }else{
+                        Toast.makeText(getContext(), "Error del Servidor",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+
                 }
             } catch (JSONException e) {
                 Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
